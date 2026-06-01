@@ -6,7 +6,7 @@
 # sudo apt install bat #ハイライト可能なcat(fzfのプレビューをいい感じにする)
 
 # == history設定
-HISTFILE="XDG_STATE_HOME/zsh/history"
+HISTFILE="${XDG_STATE_HOME}/zsh/history"
 HISTSIZE=100000
 SAVEHIST=100000
 
