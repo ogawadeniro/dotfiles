@@ -140,7 +140,7 @@ zstyle ':vcs_info:git:*' unstagedstr '%F{red} %f'
 git_clean() {
 
     if [ $(git status --short 2>&1 | wc -l) -eq 0 ]; then
-        print '%F{green}  %f'
+        print '%F{green} %f'
     fi
 }
 
