@@ -134,7 +134,7 @@ zstyle ':vcs_info:git:*' formats "${FG_NEUTRAL}(%b)%f%c%u"
 zstyle ':vcs_info:git:*' actionformats "${FG_NEUTRAL}(%b-%a)%f%c%u"
 
 # Symbols used when files are staged / modified
-zstyle ':vcs_info:git:*' stagedstr ' %F{yellow} %f'
+zstyle ':vcs_info:git:*' stagedstr '%F{yellow} %f'
 zstyle ':vcs_info:git:*' unstagedstr '%F{red} %f'
 
 git_clean() {
