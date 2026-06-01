@@ -1,10 +1,3 @@
-# == 3rd パーティツール
-# sudo apt install zoxide # ディレクトリ補完
-# sudo apt install fzf # ファジーファインダ
-# sudo apt install fd-find #findの代替
-# sudo apt install eza #lsをいい感じにする
-# sudo apt install bat #ハイライト可能なcat(fzfのプレビューをいい感じにする)
-
 # == history設定
 HISTFILE="${XDG_STATE_HOME}/zsh/history"
 HISTSIZE=100000
