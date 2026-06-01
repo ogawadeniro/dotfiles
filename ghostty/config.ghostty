@@ -1,0 +1,37 @@
+command = /bin/zsh
+# initial-command = /bin/tmux
+
+# ウィンドウを最大化して起動(効かない)
+# maximize = true
+# 起動時のウィンドウサイズ指定
+window-width = 212
+window-height = 47
+
+# 背景を透過
+background-opacity = 0.91
+
+# フォントサイズ
+font-size = 11
+
+# カラーテーマ
+# ghostty +list-themes
+theme = Catppuccin Mocha
+
+# ウィンドウのパディングを設定
+window-padding-x = 0
+window-padding-y = 0
+# window-padding-balance = true
+
+# 入力中はマウスカーソルを隠す
+mouse-hide-while-typing = true
+
+# == クリップボード
+# 読み書きを許可
+clipboard-read = allow
+clipboard-write = allow
+
+# ghostty操作チートシート
+# ctrl + enter -> フルスクリーン
+# ctrl+0 -> フォントサイズリセット
+# ctrl-shift-n -> 新ウィンドウ
+# ctrl-shift-t -> 新タブ
