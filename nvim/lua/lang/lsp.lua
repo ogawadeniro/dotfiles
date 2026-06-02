@@ -1,14 +1,39 @@
 vim.pack.add({
     { src = "https://github.com/neovim/nvim-lspconfig" },
     { src = "https://github.com/mason-org/mason.nvim" },
+    { src = "https://github.com/williamboman/mason-lspconfig.nvim" }, -- npm required
 })
 
-local icons = require("assets.icons")
-
+-- ------------------------------------------------------------------------------
+-- LSP自動インストール設定
+-- ------------------------------------------------------------------------------
 --Mason有効化(lspをMasonでインストールせず、システム側などでインストールする場合は不要。)
 require("mason").setup({})
+require("mason-lspconfig").setup({
+    --インストールするサーバリスト
+    ensure_installed = {
+        "lua_ls",
+        "pylsp",
+        "ansiblels",
+        "clangd",
+        "cmake",
+        "jdtls",
+        "rust_analyzer", -- rustaceanivmで必須。nvim-lsp-configでは設定しない
+        "dockerls",
+        "bashls",
+        "jsonls",
+        "lemminx",
+        "marksman",
+        "yamlls",
+        "openscad_lsp",
+        "terraformls"
+    },
+    automatic_installation = true,
+})
 
---共通設定定義
+-- ------------------------------------------------------------------------------
+-- サーバごとの設定を定義
+-- ------------------------------------------------------------------------------
 local server_opts = {
     -- lua
     lua_ls = {
@@ -39,11 +64,40 @@ local server_opts = {
             },
         },
     },
+    -- python
     pylsp = {},
+    -- ansible
+    ansiblels = {},
+    -- clangd
+    clangd = {},
+    -- cmake
+    cmake = {},
+    -- java
+    jdtls = {},
+    -- docker
+    dockerls = {},
+    -- bash
     bashls = {
         filetypes = { "sh", "bash", "zsh" }, -- 必要に応じて "zsh" などを追加
     },
+    -- json
+    jsonls = {},
+    -- xml
+    lemminx = {},
+    -- markdown
+    marksman = {},
+    -- yaml
+    yamlls = {},
+    -- openscad
+    openscad_lsp = {},
+    -- terraform
+    terraformls = {},
 }
+
+-- ------------------------------------------------------------------------------
+-- 共通設定定義
+-- ------------------------------------------------------------------------------
+local icons = require("assets.icons")
 local opts = {
     -- capability共通設定
     capabilities = {
@@ -109,7 +163,9 @@ local opts = {
     },
 }
 
--- LSPAttachイベント発火時にキーマップを設定する
+-- ------------------------------------------------------------------------------
+-- キーマップ設定(LSPAttachイベント発火時)
+-- ------------------------------------------------------------------------------
 local function map(buf, mode, lhs, cmd, desc)
     local rhs = "<cmd>lua " .. cmd .. "<CR>"
     local opt = {
@@ -139,7 +195,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end,
 })
 
--- LSPAttachイベント発火時にinlayhintを有効化する
+-- ------------------------------------------------------------------------------
+-- inlayhint設定(LSPAttachイベント発火時)
+-- ------------------------------------------------------------------------------
 if opts.inlay_hints.enabled then
     vim.api.nvim_create_autocmd("LspAttach", {
         callback = function(e)
@@ -156,7 +214,9 @@ if opts.inlay_hints.enabled then
     })
 end
 
--- コードレンズ設定(参照回数とかがわかる)
+-- ------------------------------------------------------------------------------
+-- inlayhint設定(LSPAttachイベント発火時)
+-- ------------------------------------------------------------------------------
 if opts.codelens.enabled then
     vim.api.nvim_create_autocmd("LspAttach", {
         callback = function(e)
@@ -173,10 +233,14 @@ if opts.codelens.enabled then
     })
 end
 
+-- ------------------------------------------------------------------------------
 -- コード診断設定
+-- ------------------------------------------------------------------------------
 vim.diagnostic.config(vim.deepcopy(opts.diagnostics))
 
+-- ------------------------------------------------------------------------------
 -- サーバ個別設定を適用してLSP有効化
+-- ------------------------------------------------------------------------------
 for name, opt in pairs(server_opts) do
     local config = vim.deepcopy(opt)
     local capabilities = vim.tbl_deep_extend( --capability設定をマージ
