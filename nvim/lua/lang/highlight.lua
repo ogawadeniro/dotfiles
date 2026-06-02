@@ -2,17 +2,22 @@ vim.pack.add({
     { src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "main" } --パーサーインストール用。実際のハイライト設定とかはnvim組み込みになったらしい
 })
 
+-- ------------------------------------------------------------------------------
 -- treesitterアップデート時にTSUpdateを実行する
+-- ------------------------------------------------------------------------------
 vim.api.nvim_create_autocmd("PackChanged", {
     callback = function(ev)
         local name, kind = ev.data.spec.name, ev.data.kind
         if name == "nvim-treesitter" and kind == "update" then
             vim.cmd("TSUpdate")
+            vim.notify("treesitterをアップデートしたのでTSUpdateを実行したよ")
         end
     end
 })
 
--- lsp側でのハイライト無効化
+-- ------------------------------------------------------------------------------
+-- lsp側でのハイライト無効化(:Inspectを実行した時に出るSyntaxというやつ)
+-- ------------------------------------------------------------------------------
 vim.api.nvim_create_autocmd('LspAttach', {
     callback = function(e)
         local client = vim.lsp.get_client_by_id(e.data.client_id)
@@ -22,7 +27,9 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end,
 })
 
--- ファイルタイプ適用時にtreesitterを有効にする
+-- ------------------------------------------------------------------------------
+-- ファイルタイプ適用時にtreesitterを有効にする(each lang)
+-- ------------------------------------------------------------------------------
 vim.api.nvim_create_autocmd('FileType', {
     -- パーサーが存在している言語だけ対象にする
     pattern = {
@@ -31,20 +38,20 @@ vim.api.nvim_create_autocmd('FileType', {
         "markdown",
         "vimscript",
         "vimdoc",
-        --treesitter query files |ft-query-plugin|
+        "query", --treesitter query files |ft-query-plugin|
         -- ↑ここまではnvimデフォルトでパーサが存在する
-        -- ↑ここからは自力orTSInstallでパーサをインストールする必要あり
+        -- ↓ここからは自力orTSInstallでパーサをインストールする必要あり
         "rust",
         "python",
         "cpp",
+        "yaml",
+        "json",
+        "bash",
+        "sh",
+        "zsh",
         "hcl",
         "terraform",
-        "yaml",
-        "bash",
-        "json",
         "gitignore",
-        "sh",
-        "zsh"
     },
     callback = function(e)
         -- イベントからファイルタイプ取得
@@ -52,7 +59,7 @@ vim.api.nvim_create_autocmd('FileType', {
         -- ファイルタイプから言語を取得
         local lang
         --if string.match(ft, "%..+rc") then
-        if string.match(ft, ".+sh") then
+        if string.match(ft, ".*sh") then
             lang = "bash"
         else
             lang = ft
