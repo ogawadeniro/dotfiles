@@ -1,3 +1,7 @@
+# == パス設定
+# opencode
+export PATH=/home/rogawa/.opencode/bin:$PATH
+
 # == history設定
 HISTFILE="${XDG_STATE_HOME}/zsh/history"
 HISTSIZE=100000
