@@ -1,4 +1,6 @@
 local M = {
+    fg = "#cdd6f4",
+    bg = "#",
     blue = {
         "#7ca0f3",
         "#6c90e3",
@@ -7,7 +9,14 @@ local M = {
         "#3c60b3",
         "#2c50a3",
         "#1c4093",
-        "#0c3083",
+        "#153783",
+        "#102972",
+        "#081862",
+        "#041453",
+        "#040843",
+        "#040833",
+        "#040823",
+        "#040813",
     },
     orange = {
         "#fad7a0",
@@ -49,6 +58,10 @@ local M = {
         "#212234",
         "#111224",
     },
+    inactive = {
+        fg = "#65677a",
+        bg = "#303245",
+    },
     mode = {
         normal = "#4c70c3",
         insert = "#c34c70",
@@ -56,6 +69,15 @@ local M = {
         visual = "#3c8fa4",
         terminal = "#797a8c",
     },
+    stat = {
+        ok = "#a6e3a1",
+        ng = "#933b40",
+        error = "#f38ba8",
+        warn = "#f9e2af",
+        info = "#89dceb",
+        hint = "#94e2d5",
+    },
+
     syntax = {
         string = "#fab387",
         -- string = "#ce9178",
