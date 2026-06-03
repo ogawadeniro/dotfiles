@@ -10,7 +10,7 @@
       "src": "https://github.com/Mitch1000/backpack.nvim"
     },
     "blink.cmp": {
-      "rev": "7c0fae7fb37c4ee43927df88f4f1b7eb8e33a520",
+      "rev": "b943982a29f100a4d17b3d2d09dc06b5a0d0f398",
       "src": "https://github.com/saghen/blink.cmp"
     },
     "blink.compat": {
@@ -83,7 +83,7 @@
       "src": "https://github.com/mason-org/mason.nvim"
     },
     "mini.nvim": {
-      "rev": "8b63dc6caf94f6580e371f9b339548848f72e489",
+      "rev": "11afe78a10570fe1d0c7ed0b6fc2b5b19098cb45",
       "src": "https://github.com/nvim-mini/mini.nvim"
     },
     "namu.nvim": {
@@ -111,7 +111,7 @@
       "src": "https://github.com/kevinhwang91/nvim-hlslens"
     },
     "nvim-lspconfig": {
-      "rev": "9573948c38bfabeec353ae7dd7d3ffec4c506a6b",
+      "rev": "07dff35e7c95288861200b788ef32d6103f107f0",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-nio": {
@@ -144,7 +144,7 @@
       "src": "https://github.com/nvim-tree/nvim-web-devicons"
     },
     "oil.nvim": {
-      "rev": "b91ee5a77a6a9605d9c1aaf4fda74b66082c8297",
+      "rev": "b73018b75affd13fa38e2fc94ef753b465f770d7",
       "src": "https://github.com/stevearc/oil.nvim.git"
     },
     "plenary.nvim": {
