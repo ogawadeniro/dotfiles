@@ -1,18 +1,18 @@
 # ==============================================================================
-# Prompt Configuration (Pure zsh + vcs_info)
+# プロンプト設定 (Pure zsh + vcs_info)
 #
-# Features:
-#   - No oh-my-zsh dependency
-#   - vcs_info based Git status
-#   - Conda / VirtualEnv display
-#   - Ruby version display (rbenv)
-#   - Host alias via ~/.box-name
-#   - Right prompt clock
+# 特徴:
+#   - oh-my-zsh 非依存
+#   - vcs_info ベースの Git 状態表示
+#   - Conda / VirtualEnv 表示
+#   - Ruby バージョン表示 (rbenv)
+#   - ~/.box-name によるホスト名エイリアス
+#   - 右プロンプトに時計
 #
 # ==============================================================================
 
 # ------------------------------------------------------------------------------
-# zsh built-in modules
+# zsh 組み込みモジュール
 # ------------------------------------------------------------------------------
 
 autoload -Uz colors
@@ -21,26 +21,26 @@ autoload -Uz add-zsh-hook #fix
 
 colors
 
-# Enable command substitution inside PROMPT
+# PROMPT 内でコマンド置換を有効化
 setopt PROMPT_SUBST
 
 # ------------------------------------------------------------------------------
-# Color definitions
+# 色定義
 # ------------------------------------------------------------------------------
 
-# Equivalent to old FG[247]
+# 旧 FG[247] に相当
 FG_NEUTRAL="%F{247}"
 
 # ------------------------------------------------------------------------------
-# Host name helper
+# ホスト名ヘルパー
 # ------------------------------------------------------------------------------
 
-# If ~/.box-name exists, use its contents as the hostname.
+# ~/.box-name が存在すればその内容をホスト名として使う
 #
-# Example:
+# 例:
 #   echo "prod01" > ~/.box-name
 #
-# Prompt:
+# プロンプト:
 #   ryoma@prod01
 #
 box_name() {
@@ -48,15 +48,15 @@ box_name() {
 
     [[ -f ~/.box-name ]] && box="$(<~/.box-name)"
 
-    # Escape % because PROMPT interprets it specially.
+    # % は PROMPT 内で特殊文字なのでエスケープする
     print -r -- "${box//\%/%%}"
 }
 
 # ------------------------------------------------------------------------------
-# Python virtual environment helper
+# Python 仮想環境ヘルパー
 # ------------------------------------------------------------------------------
 
-# Display:
+# 表示例:
 #
 #   (base)
 #   (venv)
@@ -74,10 +74,10 @@ virtualenv_info() {
 }
 
 # ------------------------------------------------------------------------------
-# Ruby version helper
+# Ruby バージョンヘルパー
 # ------------------------------------------------------------------------------
 
-# Display:
+# 表示例:
 #
 #   using ‹3.3.0›
 #
@@ -97,7 +97,7 @@ ruby_prompt_info() {
 }
 
 # ------------------------------------------------------------------------------
-# Clock helper
+# 時計ヘルパー
 # ------------------------------------------------------------------------------
 
 clock_info() {
@@ -105,18 +105,18 @@ clock_info() {
 }
 
 # ------------------------------------------------------------------------------
-# vcs_info configuration
+# vcs_info 設定
 # ------------------------------------------------------------------------------
 
-# Git only
+# Git のみ有効
 zstyle ':vcs_info:*' enable git
 
-# Detect staged / unstaged changes
+# ステージ済み / 未ステージの変更を検出
 zstyle ':vcs_info:git:*' check-for-changes true
 
-# Normal state
+# 通常状態
 #
-# Examples:
+# 例:
 #
 #   [main]
 #   [main ●]
@@ -124,16 +124,16 @@ zstyle ':vcs_info:git:*' check-for-changes true
 #
 zstyle ':vcs_info:git:*' formats "${FG_NEUTRAL}(%b)%f%c%u"
 
-# Action state
+# アクション状態 (merge/rebase 中)
 #
-# Examples:
+# 例:
 #
 #   [main|rebase]
 #   [main|merge]
 #
 zstyle ':vcs_info:git:*' actionformats "${FG_NEUTRAL}(%b-%a)%f%c%u"
 
-# Symbols used when files are staged / modified
+# ファイルがステージ / 変更されたときの記号
 zstyle ':vcs_info:git:*' stagedstr '%F{yellow} %f'
 zstyle ':vcs_info:git:*' unstagedstr '%F{red} %f'
 
@@ -145,18 +145,18 @@ git_clean() {
 }
 
 # ------------------------------------------------------------------------------
-# Prompt symbol
+# プロンプト記号
 # ------------------------------------------------------------------------------
 
-# Git repository:
+# Git リポジトリ内:
 #
 #   󰊤
 #
-# Normal directory:
+# 通常ディレクトリ:
 #
 #   
 #
-# Failure:
+# エラー時:
 #
 #   
 #
@@ -169,7 +169,7 @@ prompt_char() {
     fi
 }
 # ------------------------------------------------------------------------------
-# Build first line
+# プロンプト1行目を構築
 # ------------------------------------------------------------------------------
 
 prompt_header() {
@@ -178,26 +178,26 @@ prompt_header() {
 
     left+="${FG_NEUTRAL}╭─%f"
 
-    # username
+    # ユーザー名
     left+="%B%F{green}%n%f%b"
 
     # @
     left+="${FG_NEUTRAL}@%f"
 
-    # hostname
+    # ホスト名
     left+="%B%F{magenta}$(box_name)%f%b"
 
     # :
     left+="${FG_NEUTRAL}:%f"
 
-    # current directory
+    # カレントディレクトリ
     left+="%B%F{blue}%~%f%b"
 
-    # git
+    # git ブランチ・状態
     left+="%B${vcs_info_msg_0_}%b"
     left+="%B$(git_clean)%b"
 
-    # ruby
+    # Ruby バージョン
     left+="$(ruby_prompt_info)"
 
     print -r "${left}"
@@ -205,7 +205,7 @@ prompt_header() {
 }
 
 # ------------------------------------------------------------------------------
-# Prompt
+# プロンプト本体
 # ------------------------------------------------------------------------------
 add-zsh-hook precmd vcs_info
 PROMPT='$(prompt_header)%f

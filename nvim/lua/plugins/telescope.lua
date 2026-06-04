@@ -17,11 +17,11 @@ vim.api.nvim_create_autocmd("PackChanged", {
 
 -- キーマップ設定
 local builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })
-vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
-vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
-vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
-vim.keymap.set('n', '<leader>fd', builtin.diagnostics, { desc = 'Telescope Diagnostics' })
+vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope: ファイル検索' })
+vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope: grep検索' })
+vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope: バッファ一覧' })
+vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope: ヘルプ検索' })
+vim.keymap.set('n', '<leader>fd', builtin.diagnostics, { desc = 'Telescope: 診断一覧' })
 
 -- 他設定
 local opts = {

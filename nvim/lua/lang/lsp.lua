@@ -43,7 +43,7 @@ local server_opts = {
                     globals = { "vim", "use" },
                 },
                 workspace = {
-                    -- Neovim のランタイムファイルを読み込ませる
+                    -- Neovim の runtime ファイルを読み込ませる
                     library = vim.api.nvim_get_runtime_file("lua", true),
                     checkThirdParty = false,
                 },
@@ -115,7 +115,7 @@ local opts = {
                 dynamicRegistration = true, -- lsp側でフォーマッタを自動で設定するかどうか
             },
         },
-        -- TODOこれなんだっけ
+        -- TODO これなんだっけ
         workspace = {
             fileOperations = {
                 didRename = true,
@@ -146,17 +146,15 @@ local opts = {
         float = { border = "rounded" },
     },
     -- ヒント設定
-    -- Enable this to enable the builtin LSP inlay hints on Neovim >= 0.10.0
-    -- Be aware that you also will need to properly configure your LSP server to
-    -- provide the inlay hints.
+    -- Neovim >= 0.10.0 の組み込み inlay hints を有効化
+    -- LSP サーバ側でも適切に設定する必要がある
     inlay_hints = {
         enabled = true,
         exclude = {}, -- filetypes for which you don't want to enable inlay hints
     },
     -- コードレンズ設定
-    -- Enable this to enable the builtin LSP code lenses on Neovim >= 0.10.0
-    -- Be aware that you also will need to properly configure your LSP server to
-    -- provide the code lenses.
+    -- Neovim >= 0.10.0 の組み込み code lenses を有効化
+    -- LSP サーバ側でも適切に設定する必要がある
     codelens = {
         --enabled = true,
         enabled = false,

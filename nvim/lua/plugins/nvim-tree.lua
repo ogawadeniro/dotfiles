@@ -1,4 +1,4 @@
---dependencies
+-- 依存プラグイン
 vim.pack.add({
     { src = "https://github.com/nvim-tree/nvim-tree.lua" },
     { src = "https://github.com/nvim-tree/nvim-web-devicons" },
@@ -64,21 +64,21 @@ local opts = {
             }
         end
 
-        -- default mappings
+        -- デフォルトマッピング
         -- treeapi.config.mappings.default_on_attach(bufnr)
         treeapi.map.on_attach.default(bufnr)
 
-        -- custom mappings
+        -- カスタムマッピング
         -- 十字キーでディレクトリ展開
         vim.keymap.set('n', '<Right>', treeapi.node.open.edit, opts('開く'))
         vim.keymap.set('n', '<Left>', treeapi.node.navigate.parent_close, opts('フォルダを畳む'))
         vim.keymap.set('n', 'zM', treeapi.tree.collapse_all, opts('フォルダをすべて畳む'))
         vim.keymap.set('n', 'zR', treeapi.tree.expand_all, opts('フォルダをすべて展開'))
-        -- toggle help
+        -- ヘルプの表示/非表示切り替え
         vim.keymap.set('n', '?', treeapi.tree.toggle_help, opts('Help'))
-        -- open in image viewr
+        -- 画像ビュワーで開く
         vim.keymap.set('n', 'i', function()
-            -- カーソル下のノード取得
+            -- カーソル下のノードを取得
             local node = treeapi.tree.get_node_under_cursor()
             -- パス取得
             local abs_path = node.absolute_path

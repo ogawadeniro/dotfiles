@@ -14,7 +14,7 @@ vim.pack.add({
 local opts = {
     keymap = {
         preset = "super-tab", --補完の決定キー
-        -- Use ['<key>'] = { 'action', 'fallback' }
+        -- ['<key>'] = { 'action', 'fallback' } の形式で書く
         ['<C><CR>'] = { 'show', 'show_documentation', 'hide_documentation' },
         ['<C-]>'] = { 'snippet_forward', 'fallback' },
         ['<C-[>'] = { 'snippet_backward', 'fallback' },

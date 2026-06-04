@@ -1,4 +1,3 @@
-
 local BufCtl = function()
     local self = {
         bufnr = nil,
@@ -14,9 +13,9 @@ local BufCtl = function()
         self.pre_winid = vim.fn.win_getid()
         self.update_bufinfo()
 
-        -- if no buffer to list, abort bufctl.
+        -- 表示するバッファがない場合は bufctl を中断
         if #self.buflines < 1 then
-            vim.notify("No buffers to list.", vim.log.levels.WARN, { title = "BufCtl" })
+            vim.notify("表示できるバッファがないよ", vim.log.levels.WARN, { title = "BufCtl" })
             return
         end
 
@@ -46,7 +45,7 @@ local BufCtl = function()
         -- set keymap
         self.init_keymap()
 
-        -- disable left and right move
+        -- 左右移動を無効化
         vim.api.nvim_create_augroup('bufctl', {})
         vim.api.nvim_create_autocmd('CursorMoved', {
             group = 'bufctl',
@@ -67,11 +66,11 @@ local BufCtl = function()
         for i = 1, #buf_infos do
             local bufinfo = buf_infos[i]
 
-            -- Define bufnr
+            -- bufnr を定義
             local bufnr = bufinfo.bufnr
             -- local bufnr_str = string.format("%03d", bufnr)
 
-            -- Define buffer name
+            -- バッファ名を定義
             local bufname = vim.fs.basename(bufinfo.name)
 
             if bufname == "" then
@@ -83,7 +82,7 @@ local BufCtl = function()
                 bufname = "Term: " .. bufname
             end
 
-            -- Define buffer status
+            -- バッファ状態を定義
             local is_change = bufinfo.changed == 1
             local is_change_char = "-"
             if is_change then
@@ -99,11 +98,10 @@ local BufCtl = function()
                 is_current_char = "!"
             end
 
-            -- Define a line of buffer infomation
-            -- local bufline = " [" .. bufnr_str .. "][" .. is_change_char .. "][" .. is_current_char .. "] " .. bufname
+            -- バッファ情報の行を定義
             local bufline = " [" .. is_current_char .. "]" .. "[" .. is_change_char .. "] " .. bufname
 
-            -- Update length of longest line.
+            -- 最長行の長さを更新
             if self.longest_line < #bufline then
                 self.longest_line = #bufline
             end
@@ -122,10 +120,10 @@ local BufCtl = function()
     end
 
     self.redraw_bufline = function()
-        -- draw bufline
+        -- bufline を描画
         self.write_lines(0, -1, self.buflines)
 
-        -- change floating window configuration
+        -- フローティングウィンドウの設定を変更
         local win_height = #self.buflines
         if win_height < 1 then
             self.close_all_window()
@@ -141,7 +139,7 @@ local BufCtl = function()
     end
 
     self.init_ui = function(config)
-        -- create bufctl window
+        -- bufctl ウィンドウを作成
         local is_shown = (#vim.fn.win_findbuf(self.bufnr) > 0)
         local current_bufnr = vim.fn.bufnr()
         local is_current = (current_bufnr == self.bufnr)
@@ -157,12 +155,12 @@ local BufCtl = function()
             vim.g.bufctl_bufnr = win_main.bufnr
             vim.g.bufctl_winid = win_main.winid
         end
-        -- initialize buffer highlight
+        -- バッファハイライトを初期化
         self.init_highlight()
     end
 
     self.init_highlight = function()
-        -- Highlight the parts that match the regular expression.
+        -- 正規表現にマッチする部分をハイライト
         vim.fn.clearmatches(self.winid)
         vim.fn.matchadd('BufCtlNoFile', '\\v(No Name|Term: .+)$', 11, 5)
         vim.fn.matchadd("BufCtlFile", '\\v[^\\]/]+$', 10, 6)
@@ -178,15 +176,14 @@ local BufCtl = function()
         local bufnr
         local winid
         if g_bufnr == nil then
-            -- target buffer has not been opend since vim launched
+            -- vim 起動後に一度も開かれていないバッファ
             bufnr = vim.api.nvim_create_buf(false, true)
         else
             bufnr = g_bufnr
         end
 
         if (g_winid == nil) or (#vim.fn.win_findbuf(bufnr) < 1) then
-            -- if target window has not been opend since vim launched
-            -- or if not found target buffer on current window
+            -- 対象ウィンドウが存在しないか、現在のウィンドウに見つからなかった場合
             winid = vim.api.nvim_open_win(bufnr, win_config.focusable, win_config)
             return { bufnr = bufnr, winid = winid }
         else
@@ -214,17 +211,17 @@ local BufCtl = function()
     end
 
     self.init_keymap = function()
-        -- enter buffer
+        -- バッファに入る
         vim.api.nvim_buf_set_keymap(self.bufnr, "n", "<Enter>", "", {
             noremap = true,
             callback = self.enter_buffer,
         })
-        -- delete buffer
+        -- バッファ削除
         vim.api.nvim_buf_set_keymap(self.bufnr, "n", "D", "", {
             noremap = true,
             callback = self.delete_buf,
         })
-        -- close window
+        -- ウィンドウを閉じる
         vim.api.nvim_buf_set_keymap(self.bufnr, 'n', 'q', '', {
             callback = function()
                 self.close_all_window()
@@ -232,14 +229,14 @@ local BufCtl = function()
         })
     end
 
-    -- enter buffer
+    -- バッファに入る
     self.enter_buffer = function()
         local linenr = vim.fn.line(".")
         local selected_bufinfo = self.bufinfos[linenr]
-        -- close BufCtl and go to previous window
+        -- BufCtl を閉じて前のウィンドウに戻る
         self.close_all_window()
         vim.fn.win_gotoid(self.pre_winid)
-        -- enter selected buffer
+        -- 選択したバッファに移動
         vim.cmd("b " .. selected_bufinfo.bufnr)
         vim.notify("enter buffer >> " .. selected_bufinfo.bufname, vim.log.levels.INFO, { title = "BufCtl" })
     end
@@ -291,5 +288,5 @@ vim.api.nvim_set_keymap("n", '<leader>b', '', {
         local bufctl = BufCtl()
         bufctl.new()
     end,
-    desc = 'Lauch BufCtl',
+    desc = 'BufCtl を起動',
 })

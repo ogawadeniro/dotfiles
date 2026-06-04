@@ -44,7 +44,7 @@ mini_notify.setup({
     content = {
         format = fmt_config,
     },
-    -- Floating window config
+    -- フローティングウィンドウの設定
     window = {
         config = win_config,
     }

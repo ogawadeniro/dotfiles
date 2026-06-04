@@ -144,14 +144,14 @@ end
 
 vim.api.nvim_set_keymap('n', '<Leader>mdp', '', {
     noremap = true,
-    desc = "Open markdown preview",
+    desc = "Markdown プレビューを開く",
     callback = function()
         init_MDP()
     end,
 })
 vim.api.nvim_set_keymap('n', '<Leader>mdc', '', {
     noremap = true,
-    desc = "Close markdown preview",
+    desc = "Markdown プレビューを閉じる",
     callback = function()
         quit_MDP()
     end,

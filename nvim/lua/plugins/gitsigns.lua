@@ -10,7 +10,7 @@ require('gitsigns').setup({
             opts.buffer = bufnr
             vim.keymap.set(mode, l, r, opts)
         end
-        -- Navigation
+        -- ナビゲーション
         map('n', '<Leader>g]', function()
             if vim.wo.diff then
                 vim.cmd.normal({ '<Leader>gn', bang = true })
@@ -26,7 +26,7 @@ require('gitsigns').setup({
                 gitsigns.nav_hunk('prev')
             end
         end, { desc = "前のhunk(変更箇所)へ" })
-        -- Actions
+        -- アクション
         map('n', '<leader>gS', gitsigns.stage_buffer, { desc = "bufferをステージ" })
         map('n', '<leader>gR', gitsigns.reset_buffer, { desc = "bufferのステージをリセット" })
         map('n', '<leader>gp', gitsigns.preview_hunk, { desc = "hunk(変更箇所)をプレビュー" })

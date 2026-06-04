@@ -3,7 +3,7 @@ vim.g.mapleader = " "
 
 -- [モード系]
 --  ターミナルでジョブモードを抜ける
-vim.keymap.set("t", "<C-[>", "<C-\\><C-N>", { noremap = true, desc = "Exit job mode on terminal" })
+vim.keymap.set("t", "<C-[>", "<C-\\><C-N>", { noremap = true, desc = "ターミナルのジョブモードを抜ける" })
 
 -- [編集系]
 -- 囲む系文字の内側に移動
@@ -121,12 +121,12 @@ vim.keymap.set("n", "<Leader>l", "", {
     callback = function()
         switchBuff("next")
     end,
-    desc = "Switch buffer to next",
+    desc = "次のバッファへ",
 })
 vim.keymap.set("n", "<Leader>h", "", {
     noremap = true,
     callback = function()
         switchBuff("prev")
     end,
-    desc = "Switch buffer to previous"
+    desc = "前のバッファへ"
 })
