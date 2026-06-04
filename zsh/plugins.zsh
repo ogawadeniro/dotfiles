@@ -1,7 +1,7 @@
-# == プラグイン
-
+# ------------------------------------------------------------------------------
 # プラグインインストール&ロード用関数
-ZPLUGINDIR="${ZDOTDIR:-$HOME/.config/zsh}/plugins"
+# ------------------------------------------------------------------------------
+ZPLUGINDIR="${ZDOTDIR}/plugins"
 
 _zplugin_load() {
     local plugin_path="${ZPLUGINDIR}/${2}"
@@ -53,7 +53,9 @@ _zplugin_load_part() {
     source "${plugin_path}/${plugin_name}.plugin.zsh"
 }
 
+# ------------------------------------------------------------------------------
 # プラグインアップデート用関数(手動で実行)
+# ------------------------------------------------------------------------------
 zplugin_update() {
     local dir
     for dir in "${ZPLUGINDIR}"/*/; do
@@ -62,10 +64,19 @@ zplugin_update() {
     done
 }
 
+# ------------------------------------------------------------------------------
 # プラグインロード
-_zplugin_load jeffreytse zsh-vi-mode
+# ------------------------------------------------------------------------------
 _zplugin_load zdharma-continuum fast-syntax-highlighting
+_zplugin_load zsh-users zsh-completions
 _zplugin_load zsh-users zsh-autosuggestions
 _zplugin_load zsh-users zsh-history-substring-search
 _zplugin_load jeffreytse zsh-vi-mode
 _zplugin_load_part ohmyzsh ohmyzsh plugins/git
+
+# ------------------------------------------------------------------------------
+# プラグイン設定
+# ------------------------------------------------------------------------------
+# zsh-completions
+# 補完ソースを追加
+fpath=("${ZDOTDIR}/plugins/zsh-completions/src" $fpath)
