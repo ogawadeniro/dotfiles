@@ -20,7 +20,6 @@ zstyle ':completion:*' completer _complete _approximate
 zstyle ':completion:*' file-patterns '%p(D) %p'
 # 補完候補から除外するディレクトリ
 zstyle ':completion:*' ignored-patterns '.git' 'node_modules'
-setopt GLOB_DOTS
 
 # 補完候補をメニュー形式で選択する(fzf-tabがあるので無効)
 # zstyle ':completion:*' menu select
