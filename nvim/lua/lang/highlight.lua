@@ -1,6 +1,48 @@
 vim.pack.add({
     { src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "main" } --パーサーインストール用。実際のハイライト設定とかはnvim組み込みになったらしい
 })
+-- ------------------------------------------------------------------------------
+-- 設定
+-- ------------------------------------------------------------------------------
+-- インストールするパーサのリスト
+local install_parsers = {
+    "c",
+    "lua",
+    "markdown",
+    "vimscript",
+    "vimdoc",
+    "query", --treesitter query files
+    -- ↑ここまではnvimデフォルトでパーサが存在する
+    -- ↓ここからは自力orTSInstallでパーサをインストールする必要あり
+    "rust",
+    "python",
+    "cpp",
+    "yaml",
+    "json",
+    "bash",
+    "hcl",
+    "terraform",
+    "gitignore",
+    "zsh",
+    "tmux",
+}
+
+-- ファイルタイプとパーサの対応表(ftとパーサ名が違うものだけ定義)
+local ft_parser_compat = {
+    ["sh"] = "bash",
+    ["jsonc"] = "json",
+}
+
+-- treesitterを有効にするファイルタイプ名のリスト
+local filetypes = vim.deepcopy(install_parsers)
+for ft, _ in pairs(ft_parser_compat) do
+    table.insert(filetypes, ft)
+end
+
+-- ------------------------------------------------------------------------------
+-- 自動インストール設定
+-- ------------------------------------------------------------------------------
+require('nvim-treesitter').install({ install_parsers })
 
 -- ------------------------------------------------------------------------------
 -- treesitterアップデート時にTSUpdateを実行する
@@ -31,36 +73,16 @@ vim.api.nvim_create_autocmd('LspAttach', {
 -- ファイルタイプ適用時にtreesitterを有効にする(each lang)
 -- ------------------------------------------------------------------------------
 vim.api.nvim_create_autocmd('FileType', {
-    -- パーサーが存在している言語だけ対象にする
-    pattern = {
-        "c",
-        "lua",
-        "markdown",
-        "vimscript",
-        "vimdoc",
-        "query", --treesitter query files |ft-query-plugin|
-        -- ↑ここまではnvimデフォルトでパーサが存在する
-        -- ↓ここからは自力orTSInstallでパーサをインストールする必要あり
-        "rust",
-        "python",
-        "cpp",
-        "yaml",
-        "json",
-        "bash",
-        "sh",
-        "zsh",
-        "hcl",
-        "terraform",
-        "gitignore",
-    },
+    pattern = filetypes,
     callback = function(e)
         -- イベントからファイルタイプ取得
         local ft = e.match
         -- ファイルタイプから言語を取得
         local lang
-        --if string.match(ft, "%..+rc") then
-        if string.match(ft, ".*sh") then
-            lang = "bash"
+        -- イベントで受け取ったファイルタイプが、ファイルタイプとパーサーの対応表に存在したらそのパーサを指定する
+        -- 一致しなかった場合はファイルタイプ名と同じパーサを指定する(大体はこっち)
+        if ft_parser_compat[ft] ~= nil then
+            lang = filetypes[ft]
         else
             lang = ft
         end
