@@ -44,6 +44,15 @@ local opts = {
         find_files = {
             hidden = true,
         },
+        live_grep = {
+            hidden = true
+        },
+        buffers = {
+            hidden = true
+        },
+        diagnostics = {
+            hidden = true
+        },
     },
 }
 
