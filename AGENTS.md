@@ -35,6 +35,9 @@
 - 言語サポート追加時は `lua/lang/lsp.lua`, `lua/lang/format.lua`, `lua/lang/highlight.lua` を編集し、treesitter パーサをインストール
 - **`lsp.lua` : 各言語 LSP は `server_opts` にエントリ（空でも `{}`）が必要。ないと `vim.lsp.enable()` が静かにスキップ**
 - LSP キーマップ（`LspAttach` 時、`g` 接頭辞）: `K` ホバー, `gf` フォーマット, `gd` 定義, `gt` 型定義, `gr` 参照, `gi` 実装, `gn` リネーム, `ga` コードアクション, `ge` 診断表示, `g]`/`g[` 次/前診断
+- **`bufctl.lua` のハイライト競合に注意**: `matchadd` の `\v[^\]/]+$` は行内に `]` `/` がないと行全体にマッチし、extmark より上位の優先度を持つ。devicon 色を表示したい場合は当該 matchadd を削除し、`nvim_buf_set_extmark` + `priority` でアイコン・ファイル名を個別にハイライトする
+- bufctl のハイライト方式: icon + devicon hl_group → extmark (priority 200)、filename → extmark with Normal (priority 100)、term filename → extmark with `BufCtlTermName` (#a6e3a1)。`▶` / `` / `No Name` / `Term:` のみ matchadd で処理
+- bufctl ウィンドオプション: `winhighlight = Cursor:NormalFloat` (カーソル非表示), `cursorline = true`。閉じる時に `guicursor` を復元
 - 外部依存: treesitter-cli (nvim 0.12+)
 - Leader: `<Space>`。バッファ切替: `<Leader>h`/`<Leader>l`。Quickfix: `<Leader>c{n,p,f,l}`
 
