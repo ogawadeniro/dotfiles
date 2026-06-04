@@ -33,11 +33,17 @@ autoload -Uz compinit
 # キャッシュデータファイルから補完を初期化
 compinit -d "$XDG_CACHE_HOME/zsh/zcompdump"
 
-# 対話型の補完メニュー選択を有効化
-zstyle ':completion:*' menu select
-
 # 補完で大文字小文字を無視
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+
+# 近似補完を有効化
+zstyle ':completion:*' completer _complete _approximate
+
+# 補完候補をメニュー形式で選択する
+zstyle ':completion:*' menu select
+
+# 補完候補の色変え
+zstyle ':completion:*' list-colors di=34 ln=36 ex=32
 
 # ezaのls補完を再利用する
 compdef eza=ls
