@@ -369,6 +369,7 @@ end
 
 ---@return string
 local function stat_trresitter()
+    --if (vim.treesitter.get_parser() == nil) then
     if (vim.treesitter.get_node() == nil) then
         return opts.ts.disp_str.disable
     else
@@ -378,8 +379,13 @@ end
 
 ---@return table<vim.diagnostic.Severity, string>
 local function stat_diagnositcs()
+    -- アイコンが設定されているか確認
+    local d_signs = vim.diagnostic.config().signs
+    if not d_signs or d_signs == true then -- signsにアイコンが設定されていないときはtrueになる
+        return {}
+    end
     -- severityzごとのアイコン設定取得
-    local d_icon = vim.diagnostic.config().signs.text
+    local d_icon = d_signs.text
     if not d_icon then return {} end
 
     -- コード診断の情報取得
