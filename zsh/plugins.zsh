@@ -36,7 +36,6 @@ _zplugin_load_part() {
                 rm -rf ${tmp_path}
                 return 1
             }
-
         (cd "$tmp_path" && git sparse-checkout set "${part_path}")
 
         # 指定のディレクトリが取得できた場合はzshのプラグインディレクトリに配置
@@ -63,20 +62,3 @@ zplugin_update() {
         git -C "$dit" pull --ff-only
     done
 }
-
-# ------------------------------------------------------------------------------
-# プラグインロード
-# ------------------------------------------------------------------------------
-_zplugin_load zdharma-continuum fast-syntax-highlighting
-_zplugin_load zsh-users zsh-completions
-_zplugin_load zsh-users zsh-autosuggestions
-_zplugin_load zsh-users zsh-history-substring-search
-_zplugin_load jeffreytse zsh-vi-mode
-_zplugin_load_part ohmyzsh ohmyzsh plugins/git
-
-# ------------------------------------------------------------------------------
-# プラグイン設定
-# ------------------------------------------------------------------------------
-# zsh-completions
-# 補完ソースを追加
-fpath=("${ZDOTDIR}/plugins/zsh-completions/src" $fpath)
