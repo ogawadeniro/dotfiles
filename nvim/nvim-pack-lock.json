@@ -98,6 +98,10 @@
       "rev": "0303a7208dba448c459767486a38a6ec05c4216b",
       "src": "https://github.com/catppuccin/nvim"
     },
+    "nvim-bufctl": {
+      "rev": "56a74e43556713f319689195d69f45b2f0812716",
+      "src": "https://github.com/ogawadeniro/nvim-bufctl"
+    },
     "nvim-dap": {
       "rev": "531771530d4f82ad2d21e436e3cc052d68d7aebb",
       "src": "https://github.com/mfussenegger/nvim-dap"
