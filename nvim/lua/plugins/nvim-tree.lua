@@ -69,9 +69,22 @@ local opts = {
         treeapi.map.on_attach.default(bufnr)
 
         -- カスタムマッピング
-        -- 十字キーでディレクトリ展開
-        vim.keymap.set('n', '<Right>', treeapi.node.open.edit, opts('開く'))
-        vim.keymap.set('n', '<Left>', treeapi.node.navigate.parent_close, opts('フォルダを畳む'))
+        -- 十字キーでディレクトリ展開（ウィンドウリサイズモード中はリサイズ優先）
+        vim.keymap.set('n', '<Right>', function()
+            if vim.g._resize_mode then
+                vim.cmd("vertical resize +1")
+            else
+                treeapi.node.open.edit()
+            end
+        end, opts('開く'))
+        vim.keymap.set('n', '<Left>', function()
+            if vim.g._resize_mode then
+                vim.cmd("vertical resize -1")
+            else
+                treeapi.node.navigate.parent_close()
+            end
+        end, opts('フォルダを畳む'))
+
         vim.keymap.set('n', 'zM', treeapi.tree.collapse_all, opts('フォルダをすべて畳む'))
         vim.keymap.set('n', 'zR', treeapi.tree.expand_all, opts('フォルダをすべて展開'))
         -- ヘルプの表示/非表示切り替え

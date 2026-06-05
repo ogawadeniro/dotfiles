@@ -7,13 +7,13 @@ vim.g.mapleader = " "
 -- ウィンドウ操作系
 -- ------------------------------------------------------------------------------
 -- C-w + 矢印キーでリサイズモードに入る。連打で繰り返しリサイズ可能
-local resize_mode = false
+vim.g._resize_mode = false
 local resize_timer = nil
 
 local function enter_resize_mode()
-    resize_mode = true
+    vim.g._resize_mode = true
     if resize_timer then pcall(resize_timer.close, resize_timer) end
-    resize_timer = vim.defer_fn(function() resize_mode = false end, 1500)
+    resize_timer = vim.defer_fn(function() vim.g._resize_mode = false end, 1500)
 end
 
 vim.keymap.set("n", "<C-w><Right>", function()
@@ -37,13 +37,13 @@ end, { desc = "ウィンドウ高さを狭める（連打可）" })
 local key_move = {
     Right = { resize = "vertical resize +1", desc = "幅を広げる" },
     Left  = { resize = "vertical resize -1", desc = "幅を狭める" },
-    Up    = { resize = "resize +1",          desc = "高さを広げる" },
-    Down  = { resize = "resize -1",          desc = "高さを狭める" },
+    Up    = { resize = "resize +1", desc = "高さを広げる" },
+    Down  = { resize = "resize -1", desc = "高さを狭める" },
 }
 for name, opt in pairs(key_move) do
     local feedkey = vim.api.nvim_replace_termcodes("<" .. name .. ">", true, false, true)
     vim.keymap.set("n", "<" .. name .. ">", function()
-        if resize_mode then
+        if vim.g._resize_mode then
             enter_resize_mode()
             vim.cmd(opt.resize)
         else
@@ -54,8 +54,8 @@ end
 
 -- Esc でリサイズモード解除
 vim.keymap.set("n", "<Esc>", function()
-    if resize_mode then
-        resize_mode = false
+    if vim.g._resize_mode then
+        vim.g._resize_mode = false
         if resize_timer then pcall(resize_timer.close, resize_timer) end
     end
     vim.cmd("nohl")
