@@ -6,6 +6,7 @@ vim.g.mapleader = " "
 
 vim.keymap.set("n", "<leader>r", function()
     vim.cmd("bufdo e!")
+    vim.notify("全バッファを再読込したよ")
 end, { desc = "全バッファ再読込" })
 
 -- ------------------------------------------------------------------------------
