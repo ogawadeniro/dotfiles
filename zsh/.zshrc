@@ -19,12 +19,6 @@ CMD_BAT="batcat"
 CMD_FD="fdfind"
 
 # ------------------------------------------------------------------------------
-# パス設定
-# ------------------------------------------------------------------------------
-# opencode
-export PATH=/home/rogawa/.opencode/bin:$PATH
-
-# ------------------------------------------------------------------------------
 # シェルオプション
 # ------------------------------------------------------------------------------
 source "$ZDOTDIR/options.zsh"
@@ -91,3 +85,14 @@ source "$ZDOTDIR/fzf-tab.zsh"
 # シンタックスハイライト
 # ------------------------------------------------------------------------------
 _zplugin_load zdharma-continuum fast-syntax-highlighting
+
+# ------------------------------------------------------------------------------
+# パス設定
+# ------------------------------------------------------------------------------
+# opencode
+export PATH=/home/rogawa/.opencode/bin:$PATH
+
+# nvm
+export NVM_DIR="$HOME/.config/nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
