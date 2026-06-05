@@ -1,11 +1,75 @@
--- leaderkey設定
+-- ------------------------------------------------------------------------------
+-- leaderkey
+-- ------------------------------------------------------------------------------
 vim.g.mapleader = " "
 
--- [モード系]
+-- ------------------------------------------------------------------------------
+-- ウィンドウ操作系
+-- ------------------------------------------------------------------------------
+-- C-w + 矢印キーでリサイズモードに入る。連打で繰り返しリサイズ可能
+local resize_mode = false
+local resize_timer = nil
+
+local function enter_resize_mode()
+    resize_mode = true
+    if resize_timer then pcall(resize_timer.close, resize_timer) end
+    resize_timer = vim.defer_fn(function() resize_mode = false end, 1500)
+end
+
+vim.keymap.set("n", "<C-w><Right>", function()
+    enter_resize_mode()
+    vim.cmd("vertical resize +1")
+end, { desc = "ウィンドウ幅を広げる（連打可）" })
+vim.keymap.set("n", "<C-w><Left>", function()
+    enter_resize_mode()
+    vim.cmd("vertical resize -1")
+end, { desc = "ウィンドウ幅を狭める（連打可）" })
+vim.keymap.set("n", "<C-w><Up>", function()
+    enter_resize_mode()
+    vim.cmd("resize +1")
+end, { desc = "ウィンドウ高さを広げる（連打可）" })
+vim.keymap.set("n", "<C-w><Down>", function()
+    enter_resize_mode()
+    vim.cmd("resize -1")
+end, { desc = "ウィンドウ高さを狭める（連打可）" })
+
+-- リサイズモード中は矢印キー単体でリサイズを繰り返す
+local key_move = {
+    Right = { resize = "vertical resize +1", desc = "幅を広げる" },
+    Left  = { resize = "vertical resize -1", desc = "幅を狭める" },
+    Up    = { resize = "resize +1",          desc = "高さを広げる" },
+    Down  = { resize = "resize -1",          desc = "高さを狭める" },
+}
+for name, opt in pairs(key_move) do
+    local feedkey = vim.api.nvim_replace_termcodes("<" .. name .. ">", true, false, true)
+    vim.keymap.set("n", "<" .. name .. ">", function()
+        if resize_mode then
+            enter_resize_mode()
+            vim.cmd(opt.resize)
+        else
+            vim.api.nvim_feedkeys(feedkey, "n", false)
+        end
+    end, { desc = "カーソル移動 / リサイズモード時は" .. opt.desc })
+end
+
+-- Esc でリサイズモード解除
+vim.keymap.set("n", "<Esc>", function()
+    if resize_mode then
+        resize_mode = false
+        if resize_timer then pcall(resize_timer.close, resize_timer) end
+    end
+    vim.cmd("nohl")
+end, { desc = "検索ハイライト解除 / リサイズモード解除" })
+
+-- ------------------------------------------------------------------------------
+-- モード系
+-- ------------------------------------------------------------------------------
 --  ターミナルでジョブモードを抜ける
 vim.keymap.set("t", "<C-[>", "<C-\\><C-N>", { noremap = true, desc = "ターミナルのジョブモードを抜ける" })
 
--- [編集系]
+-- ------------------------------------------------------------------------------
+-- 編集系
+-- ------------------------------------------------------------------------------
 -- 囲む系文字の内側に移動
 local surround_chars = {
     { '"', '"' },
@@ -61,7 +125,9 @@ vim.keymap.set("n", "<leader>g;", "", {
     desc = "行末セミコロン削除"
 })
 
--- [移動系]
+-- ------------------------------------------------------------------------------
+-- 移動系
+-- ------------------------------------------------------------------------------
 -- クイックフィックス操作
 vim.keymap.set("n", "<leader>cn", "<Cmd>cnext<CR>", { noremap = true, desc = "Go to next ctag" })
 vim.keymap.set("n", "<leader>cp", "<Cmd>cNext<CR>", { noremap = true, desc = "Go to previous ctag" })
