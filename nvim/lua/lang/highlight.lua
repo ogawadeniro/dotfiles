@@ -25,6 +25,7 @@ local install_parsers = {
     "gitignore",
     "zsh",
     "tmux",
+    "java",
 }
 
 -- ファイルタイプとパーサの対応表(ftとパーサ名が違うものだけ定義)
