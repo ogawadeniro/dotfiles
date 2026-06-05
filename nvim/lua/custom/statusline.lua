@@ -7,17 +7,12 @@ local colors = require("assets.palet")
 local STAT_NA = "-"
 -- ハイライトリセット文字列
 local HL_RESET = "%*"
---local hl_ns_id = vim.api.nvim_create_namespace("userStatusLine")
 local hl_ns_id = 0
 --セパレータ例:    
+
 -- ------------------------------------------------------------------------------
 -- 型定義
 -- ------------------------------------------------------------------------------
----ハイライトの型
---@class vim.api.keyset.highlight
---@field fg? string
---@field bg? string
-
 --セパレータの型
 ---@class SLSeparator
 ---@field l? string
@@ -54,7 +49,7 @@ local sl_pos_format = {
 
 -- モード状態のオプションの型
 ---@class SLModeOpt
----@field each_mode SLModeEach[]
+---@field each_mode table<string, SLModeEach>
 ---@field separator SLSeparator
 ---@field color_sep SLSeparatorColor
 
@@ -66,6 +61,7 @@ local sl_pos_format = {
 ---@field color_sep SLSeparatorColor
 
 --コード診断のseverityとオプションの対応
+---@type table<vim.diagnostic.Severity, string>
 local sl_severity = {
     [vim.diagnostic.severity.ERROR] = "error",
     [vim.diagnostic.severity.WARN] = "warn",
@@ -87,7 +83,7 @@ local sl_severity = {
 ---@field color vim.api.keyset.highlight
 ---@field color_sep SLSeparatorColor
 
--- treesitter状態のオプションの型
+-- formatter状態のオプションの型
 ---@class SLFmtOpt
 ---@field fallback_icon string
 ---@field separator SLSeparator
@@ -97,6 +93,7 @@ local sl_severity = {
 ---ステータスラインのオプションの型
 ---@class UserSLOpt
 ---@field mode SLModeOpt
+---@field macro SLCommonOpt
 ---@field buf_nr SLCommonOpt
 ---@field buf_mod SLBufModOpt
 ---@field fpath SLCommonOpt
@@ -109,10 +106,12 @@ local sl_severity = {
 ---@field enc SLCommonOpt
 ---@field pos SLPosOpt
 
+---コンポーネント名の型
+---@alias SLComponentName "mode"|"macro"|"buf_nr"|"buf_mod"|"fpath"|"diag"|"lsp"|"ts"|"fmt"|"ft"|"ff"|"enc"|"pos"
+
 -- ------------------------------------------------------------------------------
 -- コンフィグ
 -- ------------------------------------------------------------------------------
---
 local slcolors = {
     fg = colors.fg,
     bg = colors.mono[6],
@@ -134,6 +133,7 @@ local slcolors = {
     },
     macro = colors.orange[5]
 }
+
 ---@type UserSLOpt
 local opts = {
     mode = {
@@ -156,7 +156,7 @@ local opts = {
         color     = { bg = slcolors.bg, fg = slcolors.macro },
         color_sep = { r = { bg = slcolors.bg } },
     },
-    buf_nr = { --バッファが変更されているかどうか
+    buf_nr = { --バッファ番号
         separator = { r = "  " },
         color     = { bg = slcolors.bg, fg = slcolors.fg },
         color_sep = { r = { fg = slcolors.sep, bg = slcolors.bg } },
@@ -214,7 +214,7 @@ local opts = {
         color     = { bg = slcolors.bg, fg = slcolors.fg },
         color_sep = { l = { bg = slcolors.bg, fg = slcolors.sep }, r = {} },
     },
-    enc = { --encording
+    enc = { --encoding
         separator = { l = "  ", r = "" },
         color     = { bg = slcolors.bg, fg = slcolors.fg },
         color_sep = { l = { bg = slcolors.bg, fg = slcolors.sep }, r = {} },
@@ -235,7 +235,7 @@ local opts = {
 ---@return SLModeEach
 local function stat_mode()
     local mode_expr = vim.fn.mode()
-    local mode_opt = opts.mode.each_mode[mode_expr] or { disp_str = "Unknown", color = {} }
+    local mode_opt = opts.mode.each_mode[mode_expr] or { disp_str = "Unknown", color = { bg = "NONE" } }
     return mode_opt
 end
 
@@ -245,9 +245,8 @@ local function stat_macro()
     local macro_str = vim.fn.reg_recording()
     if macro_str == "" then
         return STAT_NA
-    else
-        return "@" .. macro_str
     end
+    return "@" .. macro_str
 end
 
 ---@return string
@@ -277,7 +276,6 @@ local function stat_fpath()
     path = string.gsub(path, "([^/][^/]?[^/]?).-/", "%1/")
 
     return path
-    --return "%F"
 end
 
 -- カーソル位置を表す文字列を取得
@@ -286,7 +284,6 @@ local function stat_pos_percent()
     local lines = vim.fn.line("$")
     local row_percent = math.floor(cursor_row / lines * 100)
     return row_percent .. "%%"
-    -- return "%c," .. row_percent .. "%%"
 end
 local function stat_pos_integer()
     return "%c,%l/%L"
@@ -368,17 +365,15 @@ end
 
 
 ---@return string
-local function stat_trresitter()
-    --if (vim.treesitter.get_parser() == nil) then
+local function stat_treesitter()
     if (vim.treesitter.get_node() == nil) then
         return opts.ts.disp_str.disable
-    else
-        return opts.ts.disp_str.enable
     end
+    return opts.ts.disp_str.enable
 end
 
 ---@return table<vim.diagnostic.Severity, string>
-local function stat_diagnositcs()
+local function stat_diagnostics()
     -- アイコンが設定されているか確認
     local d_signs = vim.diagnostic.config().signs
     if not d_signs or d_signs == true then -- signsにアイコンが設定されていないときはtrueになる
@@ -400,18 +395,21 @@ end
 
 -- ------------------------------------------------------------------------------
 -- ステータスライン文字列組み立てヘルパー
--- create_componentをディスパッチャーにしたらきれいな実装になるけどめんどうくさい
 -- ------------------------------------------------------------------------------
--- セパレータを組み立てる関数
----@param hlgroup string
----@param text string
+-- ハイライトヘルパー
+local function _hl(hlgroup)
+    return "%#" .. hlgroup .. "#"
+end
+
+-- セパレータ組み立て関数
+---@param hl string
+---@param sep_char string?
 ---@param color vim.api.keyset.highlight
 ---@return string
-local function _create_separator(hlgroup, text, color)
-    vim.api.nvim_set_hl(hl_ns_id, hlgroup, color)
-    local sep_hl_set = "%#" .. hlgroup .. "#"
-    local separator = (sep_hl_set or "") .. (text or "") --.. HL_RESET
-    return separator
+local function _render_sep(hl, sep_char, color)
+    if not sep_char then return "" end
+    vim.api.nvim_set_hl(hl_ns_id, hl, color)
+    return _hl(hl) .. sep_char
 end
 
 -- 通常コンポーネントを組み立てる関数
@@ -419,29 +417,12 @@ end
 ---@param text string
 ---@return string
 local function _create_component_common(name, text)
-    -- オプション調達
-    local separator = opts[name].separator
-    local color = opts[name].color
-    local color_separator = opts[name].color_sep
-    -- ハイライトグループ名作成
-    local hlgroup = "SL" .. name
-    -- ステータス部分組み立て
-    vim.api.nvim_set_hl(hl_ns_id, hlgroup, color)
-    local hl_set = "%#" .. hlgroup .. "#"
-    local stat = hl_set .. text -- .. HL_RESET
-    -- 左セパレータ組み立て
-    local sep_l = ""
-    if separator.l then
-        sep_l = _create_separator(hlgroup .. "l", separator.l, color_separator.l)
-    end
-    -- 右セパレータ組み立て
-    local sep_r = ""
-    if separator.r then
-        sep_r = _create_separator(hlgroup .. "r", separator.r, color_separator.r)
-    end
-    -- コンポーネント組み立て
-    local component = sep_l .. stat .. sep_r
-    return component
+    local entry = opts[name]
+    local hl_base = "SL" .. name
+    vim.api.nvim_set_hl(hl_ns_id, hl_base, entry.color)
+    return _render_sep(hl_base .. "l", entry.separator.l, entry.color_sep.l)
+        .. _hl(hl_base) .. text
+        .. _render_sep(hl_base .. "r", entry.separator.r, entry.color_sep.r)
 end
 
 -- モードコンポーネントを組み立てる関数
@@ -449,45 +430,13 @@ end
 ---@param opt SLModeEach
 ---@return string
 local function _create_component_mode(name, opt)
-    -- オプション調達
-    local text = opt.disp_str
-    local color = opt.color
-    local separator = opts[name].separator
-    local color_separator = opts[name].color_sep
-
-    -- ハイライトグループ名作成
-    local hlgroup = string.gsub(("SL" .. name .. opt.disp_str), "%s+", "")
-
-    -- ステータス部分組み立て
-    vim.api.nvim_set_hl(hl_ns_id, hlgroup, color)
-    local hl_set = "%#" .. hlgroup .. "#"
-    local stat = hl_set .. text .. HL_RESET
-
-    -- 左セパレータ組み立て
-    local sep_l = ""
-    if separator.l then
-        sep_l = _create_separator(hlgroup .. "l", separator.l, color_separator.l)
-    end
-
-    -- -- 右セパレータ組み立て
-    -- local sep_r = ""
-    -- if separator.r then
-    --     sep_r = create_separator(hlgroup .. "r", separator.r, color_separator.r)
-    -- end
-    -- ↓ワークアラウンド
-    -- ↓モード背景をいい感じにしたい。
-    -- ↓モードは左下固定だろうし一旦いい。
-    -- ↓各モードオプションにセパレータ色入れるもしくは、モードのオプションにreverse(bool)を入れてセパレータがでもでもいいように対応するか(後者のほうがきれいに行けそう)
-    -- ↓基本モードは塗りつぶすから塗りつぶし系のセパレータ(こういうやつ)固定の想定で作ってもいいかも
-    local sep_r = ""
-    if separator.r then
-        sep_r = _create_separator(hlgroup .. "r", separator.r, { fg = opt.color.bg, bg = color_separator.r.bg }) .. " "
-    end
-    -- ↑ワークアラウンド
-
-    -- コンポーネント組み立て
-    local component = sep_l .. stat .. sep_r
-    return component
+    local entry = opts[name]
+    local hl_base = string.gsub(("SL" .. name .. opt.disp_str), "%s+", "")
+    vim.api.nvim_set_hl(hl_ns_id, hl_base, opt.color)
+    local sep_color_r = { fg = opt.color.bg, bg = entry.color_sep.r.bg }
+    return _render_sep(hl_base .. "l", entry.separator.l, entry.color_sep.l)
+        .. _hl(hl_base) .. opt.disp_str .. HL_RESET
+        .. _render_sep(hl_base .. "r", entry.separator.r, sep_color_r) .. " "
 end
 
 -- コード診断コンポーネントを組み立てる関数(コード診断が0個でもセパレータは作って返す)
@@ -495,42 +444,21 @@ end
 ---@param diag_texts table<vim.diagnostic.Severity, string>
 ---@return string
 local function _create_component_diagnostics(name, diag_texts)
-    local hlgroup = "SL" .. name
-    -- 受け取ったコード診断テキストそれぞれに色を付ける
+    local hl_base = "SL" .. name
+    local entry = opts[name]
     local diag_stats = {}
     for severity, text in pairs(diag_texts) do
-        if text == "" then goto continue end
-        local severity_name = sl_severity[severity]
-        -- 各severityのコンポーネント組み立て
-        local hlgroup_severity = hlgroup .. severity_name
-        vim.api.nvim_set_hl(hl_ns_id, hlgroup_severity, opts[name].each_severity[severity_name].color)
-        local hl_set = "%#" .. hlgroup_severity .. "#"
-        local stat = hl_set .. text
-        table.insert(diag_stats, stat)
-        ::continue::
+        if text ~= "" then
+            local severity_name = sl_severity[severity]
+            local hl_severity = hl_base .. severity_name
+            vim.api.nvim_set_hl(hl_ns_id, hl_severity, entry.each_severity[severity_name].color)
+            table.insert(diag_stats, _hl(hl_severity) .. text)
+        end
     end
-
-    -- コード診断を合体して一つの文字列にする
     local combined_diag_stats = table.concat(diag_stats, " ")
-
-    -- セパレータ組み立て
-    local separator = opts[name].separator
-    local color_separator = opts[name].color_sep
-    -- 左セパレータ組み立て
-    local sep_l = ""
-    if separator.l then
-        sep_l = _create_separator(hlgroup .. "l", separator.l, color_separator.l)
-    end
-
-    -- 右セパレータ組み立て
-    local sep_r = ""
-    if separator.r then
-        sep_r = _create_separator(hlgroup .. "r", separator.r, color_separator.r)
-    end
-
-    -- コンポーネント組み立て
-    local component = sep_l .. combined_diag_stats .. HL_RESET .. sep_r
-    return component
+    return _render_sep(hl_base .. "l", entry.separator.l, entry.color_sep.l)
+        .. combined_diag_stats .. HL_RESET
+        .. _render_sep(hl_base .. "r", entry.separator.r, entry.color_sep.r)
 end
 
 -- ファイルタイプごとにアイコンと色を設定する
@@ -546,32 +474,24 @@ local function _create_component_ft(name, text)
         local hlgroup = "SL" .. name .. ft
         vim.api.nvim_set_hl(hl_ns_id, hlgroup, { fg = ft_icon_fg, bg = opts[name].color.bg })
         return string.format("%%#%s# %s ", hlgroup, ft_icon)
-    else
-        return _create_component_common(name, text) -- .." "はワークアラウンド
     end
+    return _create_component_common(name, text) -- .." "はワークアラウンド
 end
 
+---@type table<string, fun(name:string, stat:any):string>
+local builders = {
+    mode = _create_component_mode,
+    diag = _create_component_diagnostics,
+    ft = _create_component_ft,
+}
+
 ---コンポーネント作成のディスパッチャ
----@param name "mode" | "macro" | "buf_nr" | "buf_mod" | "fpath" | "diag" | "lsp" | "ts" | "fmt" | "ft" | "ff" | "enc" | "pos"
----@param stat string | table<vim.diagnostic.Severity, string> | SLModeEach
+---@param name SLComponentName
+---@param stat any
 ---@return string
 local function create_component(name, stat)
-    if name == "diag" then
-        -- コード診断
-        ---@cast stat table<vim.diagnostic.Severity, string>
-        return _create_component_diagnostics("diag", stat)
-    elseif name == "mode" then
-        -- モード
-        ---@cast stat SLModeEach
-        return _create_component_mode(name, stat)
-    elseif name == "ft" then
-        --ファイルタイプ
-        return _create_component_ft(name, stat)
-    else
-        --他一般
-        ---@cast stat string
-        return _create_component_common(name, stat)
-    end
+    local builder = builders[name] or _create_component_common
+    return builder(name, stat)
 end
 -- ------------------------------------------------------------------------------
 -- ステータスライン組み立て
@@ -590,9 +510,9 @@ StatusLine = function()
         "%<%#StatustatineNC#%=",
 
         -- 右ステータス
-        create_component("diag", stat_diagnositcs()),
+        create_component("diag", stat_diagnostics()),
         create_component("lsp", stat_lsp()),
-        create_component("ts", stat_trresitter()),
+        create_component("ts", stat_treesitter()),
         create_component("fmt", stat_formatter() .. " "),
         -- create_component("pos", " " .. stat_pos()),
         create_component("pos", stat_pos()),
@@ -601,13 +521,7 @@ StatusLine = function()
         create_component("ft", stat_ft() .. " "),
     }
 
-    -- ステータスライン組み立て
-    local status_line = ""
-    for _, component in ipairs(components) do
-        status_line = status_line .. component
-    end
-
-    return status_line
+    return table.concat(components)
 end
 
 -- ステータスラインを適用

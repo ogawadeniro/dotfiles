@@ -40,10 +40,18 @@
 - bufctl ウィンドオプション: `winhighlight = Cursor:NormalFloat` (カーソル非表示), `cursorline = true`。閉じる時に `guicursor` を復元
 - 外部依存: treesitter-cli (nvim 0.12+)
 - Leader: `<Space>`。バッファ切替: `<Leader>h`/`<Leader>l`。Quickfix: `<Leader>c{n,p,f,l}`
+- **`custom/statusline.lua` アーキテクチャ**:
+  - config → stat取得 → builder → dispatcher → 組立て の5層
+  - config は `slcolors`（一括色変更用の中継）→ `opts`（component設定）の2段構え
+  - builder は `_render_sep(hl, sep_char, color)` でセパレータ統一
+  - dispatcher は `builders` テーブル（`create_component:491`）でデータ駆動化
+  - 新しい component 追加時は `UserSLOpt` + `SLComponentName` に追記し、stat関数とbuilderを書く
 
 ## Tmux
 
 - Prefix: `C-j`。ペイン移動: `hjkl`。分割: `prefix V` (横), `prefix H` (縦)。リロード: `prefix r`
+- ペイン移動: `prefix m`（垂直分割=左右並び）、`prefix M`（水平分割=上下積み）でプロンプトにウィンドウ番号入力
+- レイアウト切替: `prefix R`（`select-layout -n`、巡回）
 - Catppuccin テーマは手動 clone (TPM 不使用):
   ```sh
   git clone -b v2.3.0 https://github.com/catppuccin/tmux.git ~/.config/tmux/plugins/catppuccin/tmux
