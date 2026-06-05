@@ -8,17 +8,16 @@ conform.setup({
     -- ファイルタイプごとにどのフォーマッタを使うかを設定(each lang)
     -- ------------------------------------------------------------------------------
     formatters_by_ft = {
-        yaml = { "prettier" },
-        json = { "prettier" },
-        -- markdown = { "prettier" },
+        -- yaml = { "prettier" },
+        -- json = { "prettier" },
+        make = { "checkmake" },
         markdown = { "markdownlint" },
-        make = { "prettier" },
-        -- python = { "black", "isort" },
+        -- markdown = { "prettier" },
         python = { "black" },
         c = { "clang-format" },
         rust = { "rustfmt" },
-        bash = { "shfmt" },
-        sh = { "shfmt" },
+        -- bash = { "shfmt" },
+        -- sh = { "shfmt" },
     },
 
     -- ------------------------------------------------------------------------------
@@ -51,7 +50,7 @@ conform.setup({
         async = false,
         timeout_ms = 1000,
     },
-    -- フォーマッタがエラーを履いた時に通知する
+    -- フォーマッタがエラーを吐いた時に通知する
     notify_on_error = true,
     -- 有効なフォーマッタがない時に通知する
     notify_no_formatters = false,

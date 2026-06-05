@@ -12,21 +12,25 @@ require("mason").setup({})
 require("mason-lspconfig").setup({
     --インストールするサーバリスト
     ensure_installed = {
-        "lua_ls",
-        "pylsp",
-        "ansiblels",
-        "clangd",
-        "cmake",
-        "jdtls",
+        "lua_ls",        -- lua
+        "pylsp",         -- python
+        "clangd",        -- c, cpp
+        "jdtls",         -- java
         "rust_analyzer", -- rustaceanivmで必須。nvim-lsp-configでは設定しない
-        "dockerls",
-        "bashls",
-        "jsonls",
-        "lemminx",
-        "marksman",
-        "yamlls",
-        "openscad_lsp",
-        "terraformls"
+        "html",          -- html
+        "cssls",         -- css
+        "bashls",        -- bash, sh, zsh...
+        "openscad_lsp",  -- openscad
+        -- データ記述系
+        "jsonls",        -- json, jsonc
+        "lemminx",       -- xml
+        "marksman",      -- markdown
+        "yamlls",        -- yaml
+        -- tool系
+        "cmake",         -- cmake
+        "dockerls",      -- dockerfile
+        "ansiblels",     -- ansisble
+        "terraformls"    -- terafform
     },
     automatic_installation = true,
 })
@@ -66,20 +70,26 @@ local server_opts = {
     },
     -- python
     pylsp = {},
-    -- ansible
-    ansiblels = {},
     -- clangd
     clangd = {},
     -- cmake
-    cmake = {},
+    cmake = {
+    },
     -- java
     jdtls = {},
-    -- docker
-    dockerls = {},
+    -- html
+    html = {},
+    -- css
+    cssls = {},
+    -- javascript
+    -- lwc_ls = {},
     -- bash
     bashls = {
         filetypes = { "sh", "bash", "zsh" }, -- 必要に応じて "zsh" などを追加
     },
+    -- openscad
+    openscad_lsp = {},
+    -- データ記述系
     -- json
     jsonls = {},
     -- xml
@@ -88,10 +98,13 @@ local server_opts = {
     marksman = {},
     -- yaml
     yamlls = {},
-    -- openscad
-    openscad_lsp = {},
+    -- ツール系
+    -- docker
+    dockerls = {},
     -- terraform
     terraformls = {},
+    -- ansible
+    ansiblels = {},
 }
 
 -- ------------------------------------------------------------------------------

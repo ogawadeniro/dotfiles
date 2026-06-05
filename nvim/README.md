@@ -15,4 +15,5 @@ lsp設定追加する。
 treesitterの言語パーサインストールしてなかったらする  
 filetypeのautocmdに対象ファイルタイプ追加する。  
   
-それ以外にも追加設定必要な場合は言語個別でファイルを作って設定する 。  
+それ以外にも追加設定必要な場合は言語個別でファイルを作って設定する 。
+例: rust(rustaceanivm), typescript(typescript-tools)  

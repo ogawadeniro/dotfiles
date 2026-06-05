@@ -9,7 +9,7 @@ local install_parsers = {
     "c",
     "lua",
     "markdown",
-    "vimscript",
+    "vim",   --vimscript,
     "vimdoc",
     "query", --treesitter query files
     -- ↑ここまではnvimデフォルトでパーサが存在する
@@ -26,6 +26,12 @@ local install_parsers = {
     "zsh",
     "tmux",
     "java",
+    "html",
+    "typescript",
+    "javascript",
+    "css",
+    "make",
+    "cmake",
 }
 
 -- ファイルタイプとパーサの対応表(ftとパーサ名が違うものだけ定義)
@@ -43,7 +49,8 @@ end
 -- ------------------------------------------------------------------------------
 -- 自動インストール設定
 -- ------------------------------------------------------------------------------
-require('nvim-treesitter').install({ install_parsers })
+require('nvim-treesitter').install(install_parsers)
+-- require("nvim-treesitter.install").ensure_installed()
 
 -- ------------------------------------------------------------------------------
 -- treesitterアップデート時にTSUpdateを実行する
