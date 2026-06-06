@@ -92,7 +92,25 @@ _zplugin_load zdharma-continuum fast-syntax-highlighting
 # opencode
 export PATH=/home/rogawa/.opencode/bin:$PATH
 
-# nvm
+# nvm (遅延読み込み — 初回の node/npm/npx/nvm 呼び出し時のみ source)
 export NVM_DIR="$HOME/.config/nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
+nvm() {
+    unset -f nvm node npm npx
+    . "$NVM_DIR/nvm.sh"
+    nvm "$@"
+}
+node() {
+    unset -f nvm node npm npx
+    . "$NVM_DIR/nvm.sh"
+    node "$@"
+}
+npm() {
+    unset -f nvm node npm npx
+    . "$NVM_DIR/nvm.sh"
+    npm "$@"
+}
+npx() {
+    unset -f nvm node npm npx
+    . "$NVM_DIR/nvm.sh"
+    npx "$@"
+}
