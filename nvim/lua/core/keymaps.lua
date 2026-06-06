@@ -17,9 +17,16 @@ end, { desc = "全バッファ再読込" })
 local function open_browser()
     local line = vim.api.nvim_get_current_line()
     -- reg1: urlの次が空白文字、"、,の時だけ見つかる
-    -- local url = string.match(line, "(https?://[a-zA-Z0-9-_~%.:/#@!&',;=%[%]%(%)%+%*%$%?]+)[%s\",$]")
+    -- local regex_url = "a-zA-Z0-9-_~%.:/#@!&',;=%[%]%(%)%+%*%$%?"
+    -- local regex_noturl = "%s\",$"
     -- reg2: 見つかりやすいが厳密でない
-    local url = string.match(line, "(https?://[a-zA-Z0-9-_~%./#@!&,=%[%]%+%*%$%?]+)[%s;:'\",%)$]")
+    local regex_url = "a-zA-Z0-9-_~%./#@!&,=%[%]%+%*%$%?"
+    local regex_noturl = "%s;:'\",%)"
+
+    local url = string.match(line, "(https?://[" .. regex_url .. "]+)[" .. regex_noturl .. "]")
+    if not url then --URL使用可能文字だけで終わる場合
+        url = string.match(line, "(https?://[" .. regex_url .. "]+)$")
+    end
     if not url then
         vim.notify("urlが見つからなかったよ", vim.log.levels.WARN)
         return
