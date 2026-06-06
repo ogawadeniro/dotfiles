@@ -3,59 +3,84 @@
 ドットファイルたちを一括管理するためのリポジトリだよ  
 完全に個人用だよ  
 
-`./install.sh` で `~/.config/` 以下に symlink されるよ
+`./install.sh` を実行すると、本当のコンフィグディレクトリに symlink されるよ  
+
+以下、各ツールが依存している外部ツールやセットアップ方法について記載するよ  
 
 ---
 
-## 依存いろいろ
+# 共通
 
-### 共通
+## 必要外部ツール
 
-- **Nerd Font** — イカしたアイコンを表示するために必要だよ
 
-### Zsh
+| ツール | 用途 |
+|---|---|
+| **Nerd Font** |イカしたアイコンを表示 |
 
-#### 必須なやつ
+
+---
+
+# Zsh
+
+## 必要外部ツール
 
 | ツール | 用途 |
 |---|---|
 | **zoxide** | ディレクトリ移動補完 |
 | **fzf** | ファジーファインダ。履歴検索, fzf-tab など |
-| **eza** | ls をいい感じにする |
-| **bat** / **batcat** | cat の代替。fzf のプレビューをいい感じにする |
+| **eza** | ls をかっこよくする |
+| **bat** / **batcat** | cat の代替。fzf のプレビューをかっこよくする |
 | **fd** / **fdfind** | find の代替 |
 | **ripgrep** (rg) | grep の代替 |
-| **git** | プラグインマネージャとしても使う |
 | **nvim** | デフォルトエディタ |
 
-#### あると嬉しいやつ
+## あると嬉しい外部ツール
 
-| ツール | 備考 |
+| ツール | 用途 |
 |---|---|
 | **tldr** | コマンドヘルプ。なくても man が出るよ |
 | **rbenv** | Ruby バージョン表示。なくても何もしないよ |
 
-#### 自動で取ってくるプラグイン
 
-| リポジトリ | 用途 |
-|---|---|
-| `jeffreytse/zsh-vi-mode` | 高機能 vi モード |
-| `ohmyzsh/ohmyzsh` (plugins/git) | git エイリアス・関数 |
-| `zsh-users/zsh-history-substring-search` | 部分一致履歴検索 |
-| `aloxaf/fzf-tab` | Tab補完を fzf で |
-| `zdharma-continuum/fast-syntax-highlighting` | シンタックスハイライト |
-| `zsh-users/zsh-completions` | 追加補完定義 |
-| `zsh-users/zsh-autosuggestions` | 履歴補完候補表示 |
+## zsh初期セットアップ
+1. zshインストール  
+2. /etc/zsh/zshenvを編集してコンフィグパスを変更  
+3. /.config/zshにzshの設定ファイルを配置  
+4. zsh起動  
+
+```bash /etc/zsh/zshenv
+# 手順2で編集する内容
+# パス設定
+if [[ -z "$PATH" || "$PATH" == "/bin:/usr/bin" ]]
+then
+	export PATH="/usr/local/bin:/usr/bin:/bin:/usr/games"
+fi
+
+# zsh設定のルート設定
+if [[ -z "$XDG_CONFIG_HOME" ]]
+then
+    export XDG_CONFIG_HOME="$HOME/.config"
+fi
+
+if [[ -d "$XDG_CONFIG_HOME/zsh" ]]
+then
+    export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
+fi
+```
 
 ---
 
-### Neovim
+# Neovim
 
-#### 必要なもろもろ
+## バージョン
+
+| **Neovim 0.12+** | `vim.pack` などの新APIを使う |
+
+## 必須外部ツール
 
 | 要件 | 備考 |
 |---|---|
-| **Neovim 0.12+** | `vim.pack` などの新APIを使う |
 | **make + C compiler** | telescope-fzf-native などのビルドに必要 |
 | **npm / Node.js** | mason-lspconfig, prettier, markdownlint |
 | **Python + pip** | pylsp, black |
@@ -63,66 +88,39 @@
 | **treesitter-cli** | Nvim 0.12+ で Treesitter パーサインストールに必要 |
 | **git** | プラグイン管理 |
 
-#### プラグイン (vim.pack + nvim-pack-lock.json)
 
-`lua/{core,custom,plugins,lang}/` にファイルを作るだけで自動読み込み:
+## 言語設定したいときやること
 
-- LSP: `nvim-lspconfig`, `mason.nvim`, `mason-lspconfig.nvim`
-- Treesitter: `nvim-treesitter`
-- 補完: `blink.cmp`, `LuaSnip`, `friendly-snippets`
-- ファジーファインダ: `telescope.nvim`, `telescope-fzf-native.nvim`
-- ファイルツリー: `nvim-tree.lua`, `oil.nvim`
-- カラースキーム: `catppuccin`, `nightfox`, `tokyonight`, `vscode.nvim`
-- Git: `gitsigns.nvim`
-- UI: `bufferline.nvim`, `toggleterm.nvim`, `nvim-notify`, `dressing.nvim`
-- その他: `which-key.nvim`, `lsp_signature.nvim`, `scrollbar.nvim`, `rustaceanvim`, `crates.nvim`, `hlchunk.nvim`, `tiny-cmdline.nvim`, `nvim-dap` + `nvim-dap-ui`, `markdown.nvim`, `namu.nvim`, `marks.nvim`, `hlslens.nvim`, `plenary.nvim`, `web-devicons` など
+lang配下のファイルたちを編集する。  
 
-#### LSPサーバ (Mason が自動インストール)
+- lsp.lua  
+lsp設定追加する。  
+設定項目ない場合もserver_optsに対象lsp名のプロパティ追加しないとenable()が実行されないので注意。  
 
-`lua/lang/lsp.lua`: `lua_ls`, `pylsp`, `clangd`, `bashls`, `jsonls`, `yamlls`, `marksman`, `dockerls`, `ansiblels`, `cmake`, `lemminx`, `jdtls`, `openscad_lsp`, `terraformls`, `rust_analyzer`
+- format.lua  
+フォーマッタ設定する。  
 
-#### Treesitterパーサ (`:TSInstall <lang>`)
-
-`rust`, `python`, `cpp`, `yaml`, `json`, `bash`, `hcl`, `terraform`, `gitignore`, `zsh`, `tmux`
-
-#### フォーマッタ (conform.nvim)
-
-| フォーマッタ | 対応言語 |
-|---|---|
-| **prettier** | YAML, JSON, Makefile |
-| **markdownlint** | Markdown |
-| **black** | Python (--line-length 90) |
-| **clang-format** | C / C++ |
-| **rustfmt** | Rust |
-| **shfmt** | Shell |
+- highlight.lua  
+treesitterの言語パーサインストールしてなかったらする  
+filetypeのautocmdに対象ファイルタイプ追加する。  
+  
+それ以外にも追加設定必要な場合は言語個別でファイルを作って設定する 。
+例: rust(rustaceanivm), typescript(typescript-tools)  
 
 ---
 
-### Tmux
+# Tmux
 
-- **zsh** — デフォルトシェル
-- **git** — ブランチ表示
-- **catppuccin/tmux** (v2.3.0) — テーマ（手動 clone）
-- macOS では **pbcopy** が必要（Linux は未設定）
+特になし  
 
 ---
 
-### Ghostty
+# Ghostty
 
-| 設定 | 値 |
-|---|---|
-| theme | Catppuccin Mocha（内蔵） |
-| font-size | 11 |
-| 背景透過度 | 0.91 |
-| shell | `/bin/zsh` |
+特になし  
 
 ---
 
-### OpenCode
+# OpenCode
 
-| 依存 | バージョン |
-|---|---|
-| Node.js / npm | 適当に |
-| `@opencode-ai/plugin` | 1.15.13 |
-
-設定: `opencode.jsonc` (Plan エージェント, 日本語応答), `tui.jsonc` (Catppuccin Macchiato)
+特になし  
