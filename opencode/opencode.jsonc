@@ -3,7 +3,7 @@
     "default_agent": "plan",
     "agent": {
         "default": {
-            "prompt": "日本語で思考し、回答およびコード生成をして。常に最新のベストプラクティスを適用して。"
+            "prompt": ""
         }
     },
     "permission": {
