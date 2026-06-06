@@ -29,19 +29,175 @@
 ## git
 
 ### git操作について
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< HEAD
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+>>>>>>> doc/opencode_comment
 
 - ブランチを切ったり,merge,pushするときは、**毎回** りょうまの許可を得てから行ってね。
+<<<<<<< Updated upstream
 - 過去に一度許可したからといって、次も許可されているとは思わないで。**毎回確認必須**！
 - ただ、君がgit操作をしたほうがいいと思ったときは遠慮なく提案してね。ただ、勝手にはやらないでね。
 - 確認しないほうがりょうまも嫌だし、後で大変だから、必ず確認してね。
+=======
+<<<<<<< Updated upstream
+<<<<<<< HEAD
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> doc/opencode_comment
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+- gitの操作（add/commit/push/checkout/mergeなど）は、**毎回** りょうまの許可を得てから行ってね。
+- 過去に一度許可したからといって、次も許可されているとは思わないで。**毎回確認必須**！
+=======
+
+- ブランチを切ったり,merge,pushするときは、**毎回** りょうまの許可を得てから行ってね。
+- 過去に一度許可したからといって、次も許可されているとは思わないで。**毎回確認必須**！
+=======
+- 過去に一度許可したからといって、次も許可されているとは思わないで。**毎回確認必須**！
+>>>>>>> Stashed changes
+- ただ、君がgit操作をしたほうがいいと思ったときは遠慮なく提案してね。ただ、勝手にはやらないでね。
+- 確認しないほうがりょうまも嫌だし、後で大変だから、必ず確認してね。
+>>>>>>> Stashed changes
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< HEAD
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
+=======
+>>>>>>> doc/opencode_comment
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 - 許可なくgit操作を行った場合は、必要なら操作を取り消してね。
 
 ### commit
 
 - コミットメッセージは、~/.git_commit_templateを参考にして考えてね。
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< HEAD
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+>>>>>>> doc/opencode_comment
+=======
+>>>>>>> Stashed changes
 - コミットはこまめに行ってね。「とりあえず動いた」レベルでもOK。後で見返して意味がわかる粒度が目安だよ。
 - 機能ごとにブランチを分けるのであって、1ブランチ1コミットである必要はないよ。
 
+=======
+<<<<<<< Updated upstream
+<<<<<<< HEAD
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> doc/opencode_comment
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+- コミットは、機能ごとに分けて行ってね
+=======
+- コミットはこまめに行ってね。「とりあえず動いた」レベルでもOK。後で見返して意味がわかる粒度が目安だよ。
+- 機能ごとにブランチを分けるのであって、1ブランチ1コミットである必要はないよ。
+
+>>>>>>> Stashed changes
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< HEAD
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
+=======
+>>>>>>> doc/opencode_comment
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 ### branch
 
 - 機能追加、バグ修正を行うときは、ブランチを切って作業するようにしてね。
