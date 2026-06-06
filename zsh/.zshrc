@@ -87,7 +87,7 @@ source "$ZDOTDIR/fzf-tab.zsh"
 _zplugin_load zdharma-continuum fast-syntax-highlighting
 
 # ------------------------------------------------------------------------------
-# パス設定
+# ツール環境変数設定
 # ------------------------------------------------------------------------------
 # opencode
 export PATH=/home/rogawa/.opencode/bin:$PATH
@@ -114,3 +114,11 @@ npx() {
     . "$NVM_DIR/nvm.sh"
     npx "$@"
 }
+
+# deno
+. "$HOME/.deno/env"
+
+# fcitx5(IME)
+export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export XMODIFIERS=@im=fcitx
