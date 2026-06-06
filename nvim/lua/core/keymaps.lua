@@ -4,10 +4,46 @@
 vim.g.mapleader = " "
 
 
+-- ------------------------------------------------------------------------------
+-- 便利系
+-- ------------------------------------------------------------------------------
+-- 全バッファ再読込
 vim.keymap.set("n", "<leader>r", function()
     vim.cmd("bufdo e!")
     vim.notify("全バッファを再読込したよ")
 end, { desc = "全バッファ再読込" })
+
+-- ブラウザを開く
+local function open_browser()
+    local line = vim.api.nvim_get_current_line()
+    -- reg1: urlの次が空白文字、"、,の時だけ見つかる
+    -- local url = string.match(line, "(https?://[a-zA-Z0-9-_~%.:/#@!&',;=%[%]%(%)%+%*%$%?]+)[%s\",$]")
+    -- reg2: 見つかりやすいが厳密でない
+    local url = string.match(line, "(https?://[a-zA-Z0-9-_~%./#@!&,=%[%]%+%*%$%?]+)[%s;:'\",%)$]")
+    if not url then
+        vim.notify("urlが見つからなかったよ", vim.log.levels.WARN)
+        return
+    end
+
+    ---@type table<string, string[]> 値は、はじめにコマンド、その後に引数を取るリスト。%sをURLのプレースホルダーとする
+    local browser_commands = {
+        chrome = { "google-chrome", '"%s"' }
+    }
+    for browser, command in pairs(browser_commands) do
+        local has_browser = vim.fn.executable(command[1])
+        if has_browser then
+            local cmd_fmt = table.concat(command, " ")
+            local cmd_line = string.format(cmd_fmt, url)
+            vim.print(cmd_line)
+            pcall(vim.fn.jobstart, cmd_line)
+        end
+
+        vim.notify(browser .. "で" .. url .. "を開いたよ")
+    end
+end
+vim.keymap.set("n", "<leader>B", open_browser, { desc = "ブラウザでカーソル行下のリンクを開く" })
+
+
 
 -- ------------------------------------------------------------------------------
 -- ウィンドウ操作系
