@@ -140,38 +140,65 @@ end
 -- vim.keymap.set({ "i", "c" }, "{}", "{}<Left>", { noremap = true })
 -- vim.keymap.set({ "i", "c" }, "<>", "<><Left>", { noremap = true })
 -- vim.keymap.set({ "i", "c" }, "%%", "%%<Left>", { noremap = true })
--- 行末に;を挿入
+
+-- 行末文字列挿入・行末文字列削除
+-- ファイルタイプ設定
+local ft_eol_str_index = {
+    rust = ";",
+    markdown = "  ",
+}
+vim.g.eol_str = ""
+-- 行末挿入を有効にするファイルタイプのリストを定義
+local filetypes = {}
+for ft, _ in pairs(ft_eol_str_index) do
+    table.insert(filetypes, ft)
+end
+
+-- 行末文字列挿入を有効にするファイルタイプだった場合は、グローバル変数に行末文字列をもたせる
+-- 違った場合はグローバル変数をから文字列で再定義
+vim.api.nvim_create_autocmd('FileType', {
+    -- pattern = { "*" },
+    callback = function(e)
+        local ft = e.match
+        local eol_str = ft_eol_str_index[ft]
+        if eol_str ~= nil then
+            vim.g.eol_str = eol_str
+        else
+            vim.g.eol_str = ""
+        end
+    end
+})
+-- 行末に文字列を挿入する関数
+local function insert_str_at_eol()
+    if vim.g.eol_str == "" then return end
+    local pos_prev = vim.fn.getpos(".")
+    vim.cmd('noautocmd normal! $a' .. vim.g.eol_str .. '')
+    vim.fn.setpos(".", pos_prev)
+    vim.cmd('noautocmd normal! a')
+end
+-- 行末の文字列を削除する関数
+local function delete_str_at_eol()
+    if vim.g.eol_str == "" then return end
+    -- == カーソル行の行末文字列を削除(空白文字列に置換)
+    local line_nr = vim.api.nvim_win_get_cursor(0)[1]
+    local regex_before = vim.g.eol_str .. "$"
+    --patter not found エラーを無視
+    local _, _ = pcall(vim.api.nvim_exec2, line_nr .. 's/' .. regex_before .. '//', { output = false })
+    --置換後に検索ハイライトが出るので消す
+    vim.cmd("nohl")
+end
+
+-- 行末文字列挿入キーマップ
 vim.keymap.set("n", "<leader>;", "", {
     noremap = true,
-    callback = function()
-        local pos_prev = vim.fn.getpos(".")
-        vim.cmd('noautocmd normal! $a;')
-        vim.fn.setpos(".", pos_prev)
-        vim.cmd('noautocmd normal! a')
-        print("セミコロンを入れたよ")
-    end,
-    desc = "行末にセミコロン挿入"
+    callback = insert_str_at_eol,
+    desc = "ファイルタイプごとに決まった文字列を行末に挿入"
 })
--- 行末セミコロン削除
+-- 行末文字列削除キーマップ
 vim.keymap.set("n", "<leader>g;", "", {
     noremap = true,
-    callback = function()
-        -- カーソル位置を取得しておく
-        local pos_prev = vim.fn.getpos(".")
-        -- 行末にセミコロンがあるか判定して削除
-        local line = vim.fn.getline(".")
-        local is_semicolon = string.match(line, ";$")
-        if is_semicolon then
-            vim.cmd('noautocmd normal! $x')
-            print("さよならセミコロン")
-        else
-            print("行末にセミコロンはないようだ")
-        end
-        -- カーソル位置を戻す
-        vim.fn.setpos(".", pos_prev)
-        vim.cmd('noautocmd normal! a')
-    end,
-    desc = "行末セミコロン削除"
+    callback = delete_str_at_eol,
+    desc = "ファイルタイプごとに決まった文字列を行末から削除"
 })
 
 -- ------------------------------------------------------------------------------
