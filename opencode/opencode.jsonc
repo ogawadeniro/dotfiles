@@ -11,6 +11,9 @@
             "*": "allow",
             "rm -rf *": "deny",
             "sudo *": "deny"
+        },
+        "read": {
+            "~/.git_commit_template": "allow"
         }
     }
 }
