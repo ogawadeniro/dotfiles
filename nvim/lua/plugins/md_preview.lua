@@ -3,6 +3,14 @@ vim.pack.add({
     { src = "https://github.com/OXY2DEV/markview.nvim" },
 })
 
+---@type markview.config
+local opt_markview = {
+    preview = {
+        enable = false,
+    },
+}
+require("markview").setup(opt_markview)
+
 vim.api.nvim_set_keymap("n", "<leader>mdt", "<CMD>Markview<CR>", { desc = "markrview:マークダウンのプレビューをトグル" });
 
 -- ブラウザでマークダウンプレビュー
