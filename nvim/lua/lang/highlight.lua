@@ -28,6 +28,7 @@ local install_parsers = {
     "java",
     "html",
     "typescript",
+    "tsx",
     "javascript",
     "css",
     "make",
@@ -38,6 +39,7 @@ local install_parsers = {
 local ft_parser_compat = {
     ["sh"] = "bash",
     ["jsonc"] = "json",
+    ["typescriptreact"] = "tsc"
 }
 
 -- treesitterを有効にするファイルタイプ名のリスト
