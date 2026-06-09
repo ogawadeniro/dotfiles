@@ -13,8 +13,9 @@ vim.pack.add({
 ---@type blink.cmp.Config
 local opts = {
     keymap = {
-        preset = "enter", --補完キーマッププリセット
+        preset = "none", --補完キーマッププリセット
         -- ['<key>'] = { 'action', 'fallback' } の形式で書く
+        ["<CR>"] = { "accept", "fallback" },
         ['<C-n>'] = {
             function(cmp)
                 if cmp.is_active() then
@@ -32,10 +33,11 @@ local opts = {
         enabled = true,
         completion = {
             menu = { auto_show = true },
+            list = { selection = { preselect = false, auto_insert = true } },
         },
         keymap = {
             preset = "super-tab",
-            -- ["<CR>"] = { "accept_and_enter", "fallback" },
+            ["<CR>"] = { "accept", "fallback" },
         },
     },
     appearance = {
@@ -48,7 +50,7 @@ local opts = {
         },
         ghost_text = { enabled = false },
         menu = { border = "rounded" },
-        -- list = { selection = { preselect = false, auto_insert = true } },
+        list = { selection = { preselect = false, auto_insert = true } },
         -- accept = {
         --     auto_brackets = {
         --         enabled = true,
