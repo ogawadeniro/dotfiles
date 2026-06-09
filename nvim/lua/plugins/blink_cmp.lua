@@ -30,7 +30,9 @@ local opts = {
     },
     cmdline = {
         enabled = true,
-        completion = { menu = { auto_show = true } },
+        completion = {
+            menu = { auto_show = true },
+        },
         keymap = {
             preset = "super-tab",
             -- ["<CR>"] = { "accept_and_enter", "fallback" },
@@ -63,5 +65,19 @@ local opts = {
 
 -- 補完設定
 local cmp = require('blink.cmp')
-cmp.build():wait(60000)
 cmp.setup(opts)
+cmp.build():pwait()
+
+-- ------------------------------------------------------------------------------
+-- blink.cmpアップデート時にbuild()実行(これが動いてるかは不明)
+-- ------------------------------------------------------------------------------
+vim.api.nvim_create_autocmd('PackChanged', {
+    callback = function(ev)
+        local name, kind = ev.data.spec.name, ev.data.kind
+        if name == "blink.cmp" and kind == "update" then
+            vim.notify("blink.nvimがアップデートされたので、build()を実行するよ")
+            --cmp.build():pwait()
+            cmp.build():pwait()
+        end
+    end
+})
