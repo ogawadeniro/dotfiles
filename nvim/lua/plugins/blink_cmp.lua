@@ -48,6 +48,12 @@ local opts = {
         },
         ghost_text = { enabled = false },
         menu = { border = "rounded" },
+        -- list = { selection = { preselect = false, auto_insert = true } },
+        -- accept = {
+        --     auto_brackets = {
+        --         enabled = true,
+        --     },
+        -- },
     },
     signature = { window = { border = "rounded" } },
     sources = {
@@ -63,21 +69,7 @@ local opts = {
 -- local opts_extend = { "sources.default" }
 
 
--- 補完設定
+-- 初期化
 local cmp = require('blink.cmp')
+cmp.build():pwait() --アップデート時にビルドが走る
 cmp.setup(opts)
-cmp.build():pwait()
-
--- ------------------------------------------------------------------------------
--- blink.cmpアップデート時にbuild()実行(これが動いてるかは不明)
--- ------------------------------------------------------------------------------
-vim.api.nvim_create_autocmd('PackChanged', {
-    callback = function(ev)
-        local name, kind = ev.data.spec.name, ev.data.kind
-        if name == "blink.cmp" and kind == "update" then
-            vim.notify("blink.nvimがアップデートされたので、build()を実行するよ")
-            --cmp.build():pwait()
-            cmp.build():pwait()
-        end
-    end
-})
