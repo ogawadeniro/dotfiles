@@ -13,13 +13,20 @@ vim.pack.add({
 ---@type blink.cmp.Config
 local opts = {
     keymap = {
-        preset = "super-tab", --補完の決定キー
+        preset = "enter", --補完キーマッププリセット
         -- ['<key>'] = { 'action', 'fallback' } の形式で書く
-        ['<C><CR>'] = { 'show', 'show_documentation', 'hide_documentation' },
-        ['<C-]>'] = { 'snippet_forward', 'fallback' },
-        ['<C-[>'] = { 'snippet_backward', 'fallback' },
-        ["<C-k>"] = { "scroll_documentation_up", "fallback" },
-        ["<C-j>"] = { "scroll_documentation_down", "fallback" },
+        ['<C-n>'] = {
+            function(cmp)
+                if cmp.is_active() then
+                    cmp.select_next()
+                end
+                cmp.show()
+            end
+        },
+        -- ['<A-Right>'] = { 'snippet_forward', 'fallback' },
+        -- ['<A-Left>'] = { 'snippet_backward', 'fallback' },
+        -- ["<C-k>"] = { "scroll_documentation_up", "fallback" },
+        -- ["<C-j>"] = { "scroll_documentation_down", "fallback" },
     },
     cmdline = {
         enabled = true,
@@ -43,13 +50,6 @@ local opts = {
     signature = { window = { border = "rounded" } },
     sources = {
         default = { "lsp", "path", "snippets", "buffer" },
-        -- default = { "lsp", "path", "snippets", "buffer", "crates" },
-        -- providers = {
-        --     crates = {
-        --         name = "crates",
-        --         module = "blink.compat.source"
-        --     }
-        -- }
     },
 
     snippets = { preset = "luasnip" },
@@ -58,7 +58,7 @@ local opts = {
         implementation = "prefer_rust_with_warning",
     },
 }
-local opts_extend = { "sources.default" }
+-- local opts_extend = { "sources.default" }
 
 
 -- 補完設定
