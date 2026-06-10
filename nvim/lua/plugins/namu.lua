@@ -8,5 +8,6 @@ require("namu").setup({
 vim.api.nvim_set_keymap("n", "<leader>fs", "", {
     callback = function()
         vim.cmd("Nam symbols")
-    end
+    end,
+    desc = "モジュール検索"
 })
