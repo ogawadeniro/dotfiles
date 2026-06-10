@@ -20,12 +20,15 @@ local function open_browser()
     -- local regex_url = "a-zA-Z0-9-_~%.:/#@!&',;=%[%]%(%)%+%*%$%?"
     -- local regex_noturl = "%s\",$"
     -- reg2: 見つかりやすいが厳密でない
-    local regex_url = "a-zA-Z0-9-_~%./#@!&,=%[%]%+%*%$%?"
-    local regex_noturl = "%s;:'\",%)"
+    -- local regex_url = "a-zA-Z0-9-_~%./#@!&,=%[%]%+%*%$%?"
+    -- local regex_noturl = "%s;:'\",%)"
+    local regex_end_of_url = "%s'\",%)"
 
-    local url = string.match(line, "(https?://[" .. regex_url .. "]+)[" .. regex_noturl .. "]")
+    -- local url = string.match(line, "(https?://[" .. regex_url .. "]+)[" .. regex_noturl .. "]")
+    local url = string.match(line, "(https?://[^" .. regex_end_of_url .. "]+)[" .. regex_end_of_url .. "]")
     if not url then --URL使用可能文字だけで終わる場合
-        url = string.match(line, "(https?://[" .. regex_url .. "]+)$")
+        -- url = string.match(line, "(https?://[" .. regex_url .. "]+)$")
+        url = string.match(line, "(https?://[^" .. regex_end_of_url .. "]+)$")
     end
     if not url then
         vim.notify("urlが見つからなかったよ", vim.log.levels.WARN)
