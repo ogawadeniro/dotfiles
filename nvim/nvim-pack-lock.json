@@ -29,6 +29,10 @@
       "rev": "0303a7208dba448c459767486a38a6ec05c4216b",
       "src": "https://github.com/catppuccin/nvim"
     },
+    "clim": {
+      "rev": "4894e3ea26e530097d915918a5042da22690489b",
+      "src": "https://github.com/ogawadeniro/clim"
+    },
     "conform.nvim": {
       "rev": "619363c30309d29ffa631e67c8183f2a72caa373",
       "src": "https://github.com/stevearc/conform.nvim"
