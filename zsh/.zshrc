@@ -15,8 +15,17 @@ source "$ZDOTDIR/helpers.zsh"
 # ------------------------------------------------------------------------------
 # OSごとに違うコマンド名設定
 # ------------------------------------------------------------------------------
-CMD_BAT="batcat"
-CMD_FD="fdfind"
+if [ -e "/usr/bin/bat" ] ;then
+    CMD_BAT="bat"
+elif [ -e "/usr/bin/batcat" ] ;then
+    CMD_BAT="batcat"
+fi
+
+if [ -e "/usr/bin/fd" ]; then
+    CMD_FD="fd"
+elif [ -e "/usr/bin/fdfind" ]; then
+    CMD_FD="fdfind"
+fi
 
 # ------------------------------------------------------------------------------
 # シェルオプション
