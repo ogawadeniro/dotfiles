@@ -3,10 +3,32 @@
 create_link() {
     target=$1
     link=$2
-    # シンボリックリンクがない場合だけ作成する
+    # シンボリックリンクがない場合、作成する
     if [ ! -L "$link" ]; then
-        echo "Create $target link to $link"
+        # リンク先にすでに設定ディレクトリがある場合、バックアップを作成する
+        if [ -e "${link}" ]; then
+            link_bk="${link}_bk"
+            # バックアップもすでに存在する場合は、コンフィグディレクトリかバックアップを削除するよう促す
+            if [ -e "$link_bk" ]; then
+                echo "バックアップを作成しようとしましたが、すでにバックアップがあるようです。"
+                echo "手動でバックアップを作成するか、${link}もしくは${link_bk}を削除してください。"
+                return
+            fi
+            mv "${link}" "${link_bk}"
+            if [ $? -eq 0 ]; then
+                echo "バックアップ ${link_bk} を作成しました"
+            else
+                echo "バックアップ ${link_bk} の作成に失敗しました。中断します。"
+                exit 1
+            fi
+        fi
         ln -s "$target" "$link"
+        if [ $? -eq 0 ]; then
+            echo "$target のシンボリックリンクを $link に作成しました"
+        else
+            echo "$target のシンボリックリンクを作成できませんでした。"
+            exit 1
+        fi
     fi
 }
 
