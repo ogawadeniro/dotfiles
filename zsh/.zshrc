@@ -61,8 +61,6 @@ source "$ZDOTDIR/prompt.zsh"
 # ------------------------------------------------------------------------------
 # == 快適vi-mode
 _zplugin_load jeffreytse zsh-vi-mode
-# == gitエイリアス
-_zplugin_load_part ohmyzsh ohmyzsh plugins/git
 # ==
 _zplugin_load zsh-users zsh-history-substring-search
 
@@ -116,7 +114,9 @@ npx() {
 }
 
 # deno
-. "$HOME/.deno/env"
+if [ -e "$HOME/.deno/env" ]; then
+    . "$HOME/.deno/env"
+fi
 
 # ねこ
 bash "$ZDOTDIR/cat.sh"
