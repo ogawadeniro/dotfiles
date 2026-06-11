@@ -197,8 +197,8 @@ prompt_header() {
     left+="%B${vcs_info_msg_0_}%b"
     left+="%B$(git_clean)%b"
 
-    # Ruby バージョン
-    left+="$(ruby_prompt_info)"
+    # # Ruby バージョン
+    # left+="$(ruby_prompt_info)"
 
     print -r "${left}"
 
