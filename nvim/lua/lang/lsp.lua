@@ -27,10 +27,10 @@ require("mason-lspconfig").setup({
         "marksman",      -- markdown
         "yamlls",        -- yaml
         -- tool系
-        "cmake",         -- cmake
-        "dockerls",      -- dockerfile
-        "ansiblels",     -- ansisble
-        "terraformls"    -- terafform
+        -- "cmake",         -- cmake
+        "dockerls",   -- dockerfile
+        "ansiblels",  -- ansisble
+        "terraformls" -- terafform
     },
     automatic_installation = true,
 })
