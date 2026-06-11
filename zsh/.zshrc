@@ -117,3 +117,6 @@ npx() {
 
 # deno
 . "$HOME/.deno/env"
+
+# ねこ
+bash "$ZDOTDIR/cat.sh"
