@@ -43,12 +43,19 @@ local server_opts = {
     lua_ls = {
         settings = {
             Lua = {
+                runtime = {
+                    version = "LuaJIT",
+                },
                 diagnostics = {
-                    globals = { "vim", "use" },
+                    globals = { "vim", "use", "hl" },
                 },
                 workspace = {
                     -- Neovim の runtime ファイルを読み込ませる
-                    library = vim.api.nvim_get_runtime_file("lua", true),
+                    -- library = vim.api.nvim_get_runtime_file("lua", true),
+                    library = vim.tbl_deep_extend("force", vim.api.nvim_get_runtime_file("lua", true), {
+                        "/usr/share/hypr/stubs/hl.meta.lua"
+                    }),
+                    -- "/usr/share/nvim/runtime/pack/dist/opt/nvim.undotree/lua" }
                     checkThirdParty = false,
                 },
                 completion = {
