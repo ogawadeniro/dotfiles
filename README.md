@@ -82,6 +82,7 @@ fi
 | **tree-sitter-cli** | Nvim 0.12+ で Treesitter パーサインストールに必要 |
 | **rust, cargo** | rust-analyzer, rustfmt |
 | **npm / Node.js** | mason-lspconfig, prettier, markdownlint |
+| **deno** | markdownのwebプレビュー(toppair/peek)に必要 |
 | **make + C compiler** | telescope-fzf-native などのビルドに必要 |
 | **Python + pip** | pylsp, black |
 
