@@ -8,8 +8,11 @@ vim.pack.add({
 vim.api.nvim_create_autocmd("PackChanged", {
     callback = function(ev)
         local name, kind = ev.data.spec.name, ev.data.kind
-        if name == "telescope-fzf-native" and kind == "update" then
+        vim.notify("!!!!!!!!!!PackChanged!!!!!!!!!! name: " .. name)
+        if name == "telescope-fzf-native.nvim" and kind == "update" then
             if not ev.data.active then vim.cmd.packadd("telescope-fzf-native") end
+            --アップデート時にビルドが走る(ビルドされない場合、以下実行して手動でビルドする。)
+            -- cd ~/.local/share/nvim/site/pack/core/opt/telescope-fzf-native && make
             vim.system({ "make" }, { cwd = ev.data.path })
         end
     end

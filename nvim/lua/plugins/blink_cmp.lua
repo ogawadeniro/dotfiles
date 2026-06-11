@@ -73,5 +73,7 @@ local opts = {
 
 -- 初期化
 local cmp = require('blink.cmp')
-cmp.build():pwait() --アップデート時にビルドが走る
+--アップデート時にビルドが走る(ビルドされない場合、以下実行して手動でビルドする。)
+-- cd ~/.local/share/nvim/site/pack/core/opt/blink.cmp && cargo build --release
+cmp.build():pwait()
 cmp.setup(opts)
