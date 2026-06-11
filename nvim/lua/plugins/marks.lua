@@ -6,6 +6,8 @@ require('marks').setup({
     -- default_mappings = true,
     -- どの組み込みマークを表示するか。 デフォルトは{}
     builtin_marks = { ".", "<", ">", "^" },
+    -- マークの表示優先度を下げる
+    sign_priority = { lower = 1, upper = 1, builtin = 1, bookmark = 1 },
     -- disables mark tracking for specific filetypes. default {}
     excluded_filetypes = {},
     -- disables mark tracking for specific buftypes. default {}
