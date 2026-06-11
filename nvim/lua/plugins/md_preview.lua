@@ -30,9 +30,24 @@ vim.api.nvim_create_autocmd("PackChanged", {
     end
 })
 
-require("peek").setup({
-    app = { 'google-chrome', '--new-window' }
-})
-
-vim.api.nvim_set_keymap("n", "<leader>mdp", "", { callback = require("peek").open, desc = "peek:マークダウンプレビューを開く" })
-vim.api.nvim_set_keymap("n", "<leader>mdo", "", { callback = require("peek").close, desc = "peek:マークダウンプレビューを閉じる" })
+-- ブラウザが実行可能なときだけpeekをセットアップする
+local app_cmds = {
+    { 'google-chrome',        '--new-window' },
+    { 'google-chrome-stable', '--new-window' },
+}
+local app
+for _, app_cmd in ipairs(app_cmds) do
+    if vim.fn.executable(app_cmd[1]) == 1 then
+        app = app_cmd
+        break
+    end
+end
+if app then
+    require("peek").setup({
+        app = app,
+    })
+    vim.api.nvim_set_keymap("n", "<leader>mdp", "", { callback = require("peek").open, desc = "peek:マークダウンプレビューを開く" })
+    vim.api.nvim_set_keymap("n", "<leader>mdo", "", { callback = require("peek").close, desc = "peek:マークダウンプレビューを閉じる" })
+else
+    vim.notify("peek: 利用可能なブラウザが見つからなかったよ。設定ファイルにブラウザを開くコマンドを追加してね", vim.log.levels.WARN, { title = "peek" })
+end
