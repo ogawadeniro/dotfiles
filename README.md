@@ -13,11 +13,9 @@
 
 ## 必要外部ツール
 
-
 | ツール | 用途 |
 |---|---|
-| **Nerd Font** |イカしたアイコンを表示 |
-
+| **Nerd Font** | イカしたアイコンを表示 |
 
 ---
 
@@ -46,7 +44,7 @@
 ## zsh初期セットアップ
 1. zshインストール  
 2. /etc/zsh/zshenvを編集してコンフィグパスを変更  
-3. /.config/zshにzshの設定ファイルを配置  
+3. /.config/zshにzshの設定ファイル(シンボリックリンク)を配置  
 4. zsh起動  
 
 ```bash /etc/zsh/zshenv
@@ -81,13 +79,11 @@ fi
 
 | 要件 | 備考 |
 |---|---|
-| **make + C compiler** | telescope-fzf-native などのビルドに必要 |
+| **tree-sitter-cli** | Nvim 0.12+ で Treesitter パーサインストールに必要 |
+| **rust, cargo** | rust-analyzer, rustfmt |
 | **npm / Node.js** | mason-lspconfig, prettier, markdownlint |
+| **make + C compiler** | telescope-fzf-native などのビルドに必要 |
 | **Python + pip** | pylsp, black |
-| **Rust toolchain** | rust-analyzer, rustfmt |
-| **treesitter-cli** | Nvim 0.12+ で Treesitter パーサインストールに必要 |
-| **git** | プラグイン管理 |
-
 
 ## 言語設定したいときやること
 
