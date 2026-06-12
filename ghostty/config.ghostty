@@ -11,8 +11,8 @@ command = /bin/zsh
 # maximize = true
 
 # 起動時のウィンドウサイズ指定
-window-width = 212
-window-height = 47
+window-width = 231
+window-height = 56
 
 # ウィンドウのパディングを設定
 window-padding-x = 0
@@ -20,7 +20,7 @@ window-padding-y = 0
 # window-padding-balance = true
 
 # ウィンドウの装飾
-window-decoration = true
+window-decoration = none
 
 # ------------------------------------------------------------------------------
 # 色設定
@@ -35,9 +35,10 @@ theme = Catppuccin Mocha
 # ------------------------------------------------------------------------------
 # フォント設定
 # ------------------------------------------------------------------------------
+# フォント
+font-family = "Bizin Gothic NF, JetBrainsMono Nerd Font Mono"
 # フォントサイズ
-font-size = 11
-
+font-size = 13
 # ------------------------------------------------------------------------------
 # 操作性設定
 # ------------------------------------------------------------------------------
