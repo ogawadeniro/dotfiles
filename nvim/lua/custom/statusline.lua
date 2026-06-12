@@ -189,7 +189,8 @@ local opts = {
         color_sep = { l = { bg = slcolors.bg_nc, fg = slcolors.sep_nc } },
     },
     ts = { --treesitter
-        disp_str  = { enable = " ", disable = "" },
+        --disp_str  = { enable = " ", disable = "" },
+        disp_str  = { enable = "󰐅 ", disable = "" },
         separator = { l = "  " },
         color     = { bg = slcolors.bg_nc, fg = colors.green[1] },
         color_sep = { l = { bg = slcolors.bg_nc, fg = slcolors.sep_nc } },
@@ -198,8 +199,9 @@ local opts = {
         -- table.insert(names, "%#DiagnosticSignWarn# %*" .. client.name)
         -- table.insert(names, "%#DiagnosticSignWarn# %*" .. client.name)
         --󰦛
-        fallback_icon = " ",
-        -- fallback_icon = "󰦛 ",
+        -- fallback_icon = " ",
+        -- fallback_icon = " ",
+        fallback_icon = "󰦛 ",
         separator     = {},
         color         = { bg = slcolors.bg_nc, fg = slcolors.fg },
         color_sep     = { l = { bg = slcolors.bg_nc, fg = slcolors.sep_nc } },
