@@ -168,6 +168,7 @@ end
 vim.api.nvim_create_autocmd('FileType', {
     -- pattern = { "*" },
     callback = function(e)
+        if vim.o.ft ~= "" then return end
         local ft = e.match
         if not vim.tbl_contains(filetypes, ft) then
             return
