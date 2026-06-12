@@ -13,7 +13,7 @@
             "sudo *": "deny"
         },
         "read": {
-            "~/.git_commit_template": "allow"
+            "/home/rogawa/.git_commit_template": "allow"
         }
     }
 }
