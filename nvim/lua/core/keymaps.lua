@@ -152,8 +152,11 @@ end
 local ft_eol_str_index = {
     rust = ";",
     markdown = "  ",
+    css = ";",
+    json = ",",
+    jsonc = ",",
 }
-vim.g.eol_str = ""
+vim.g.eol_str = nil
 -- 行末挿入を有効にするファイルタイプのリストを定義
 local filetypes = {}
 for ft, _ in pairs(ft_eol_str_index) do
@@ -165,13 +168,13 @@ end
 vim.api.nvim_create_autocmd('FileType', {
     -- pattern = { "*" },
     callback = function(e)
-        if vim.o.bt ~= "" then return end -- buftypeが空(普通のファイル)じゃなかったらリターン
         local ft = e.match
+        if not vim.tbl_contains(filetypes, ft) then
+            return
+        end
         local eol_str = ft_eol_str_index[ft]
         if eol_str ~= nil then
             vim.g.eol_str = eol_str
-        else
-            vim.g.eol_str = ""
         end
     end
 })
@@ -195,18 +198,27 @@ local function delete_str_at_eol()
     vim.cmd("nohl")
 end
 
--- 行末文字列挿入キーマップ
+-- 行末文字列トグルキーマップ
 vim.keymap.set("n", "<leader>;", "", {
     noremap = true,
-    callback = insert_str_at_eol,
+    -- callback = insert_str_at_eol,
+    callback = function()
+        local line = vim.api.nvim_get_current_line()
+        local match = string.match(line, ".*" .. vim.g.eol_str .. "$")
+        if match then
+            delete_str_at_eol()
+        else
+            insert_str_at_eol()
+        end
+    end,
     desc = "ファイルタイプごとに決まった文字列を行末に挿入"
 })
--- 行末文字列削除キーマップ
-vim.keymap.set("n", "<leader>g;", "", {
-    noremap = true,
-    callback = delete_str_at_eol,
-    desc = "ファイルタイプごとに決まった文字列を行末から削除"
-})
+-- -- 行末文字列削除キーマップ
+-- vim.keymap.set("n", "<leader>g;", "", {
+--     noremap = true,
+--     callback = delete_str_at_eol,
+--     desc = "ファイルタイプごとに決まった文字列を行末から削除"
+-- })
 
 -- ------------------------------------------------------------------------------
 -- 移動系
