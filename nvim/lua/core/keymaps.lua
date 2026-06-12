@@ -37,18 +37,19 @@ local function open_browser()
 
     ---@type table<string, string[]> 値は、はじめにコマンド、その後に引数を取るリスト。%sをURLのプレースホルダーとする
     local browser_commands = {
-        chrome = { "google-chrome", '"%s"' }
+        chrome = { "google-chrome", '"%s"' },
+        chrome_stable = { "google-chrome-stable", '"%s"' }
     }
     for browser, command in pairs(browser_commands) do
         local has_browser = vim.fn.executable(command[1])
-        if has_browser then
+        if has_browser == 1 then
             local cmd_fmt = table.concat(command, " ")
             local cmd_line = string.format(cmd_fmt, url)
             vim.print(cmd_line)
             pcall(vim.fn.jobstart, cmd_line)
+            vim.notify(browser .. "で" .. url .. "を開いたよ")
+            return
         end
-
-        vim.notify(browser .. "で" .. url .. "を開いたよ")
     end
 end
 vim.keymap.set("n", "<leader>B", open_browser, { desc = "ブラウザでカーソル行下のリンクを開く" })
