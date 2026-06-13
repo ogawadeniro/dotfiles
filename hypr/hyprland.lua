@@ -58,6 +58,8 @@ local browser     = "google-chrome-stable"
 hl.on("hyprland.start", function()
     hl.exec_cmd("fcitx5 -d")
     hl.exec_cmd("waybar")
+    hl.exec_cmd("vicinae server")
+    -- ssh鍵登録ワークアラウンド
     hl.exec_cmd("eval $(gnome-keyring-daemon --start --components=secrets,ssh)")
 end)
 
@@ -91,38 +93,34 @@ hl.env("HYPRCURSOR_SIZE", "24")
 
 
 -----------------------
----- LOOK AND FEEL ----
+----    見た目     ----
 -----------------------
 
 -- Refer to https://wiki.hypr.land/Configuring/Basics/Variables/
 hl.config({
     general = {
-        gaps_in          = 5,
-        gaps_out         = 20,
-
-        border_size      = 2,
-
+        gaps_in          = 0,
+        gaps_out         = 1,
+        border_size      = 1,
         col              = {
-            active_border   = { colors = { "rgba(33ccffee)", "rgba(00ff99ee)" }, angle = 45 },
-            inactive_border = "rgba(595959aa)",
+            -- active_border   = { colors = { "rgba(cc33ffee)", "rgba(33ccffee)" }, angle = 20 },
+            active_border   = { colors = { "rgba(cc33ff99)", "rgba(cc33ff77)" }, angle = 20 },
+            inactive_border = "rgba(7733aa44)",
         },
-
         -- Set to true to enable resizing windows by clicking and dragging on borders and gaps
-        resize_on_border = false,
-
+        resize_on_border = true,
         -- Please see https://wiki.hypr.land/Configuring/Advanced-and-Cool/Tearing/ before you turn this on
         allow_tearing    = false,
-
         layout           = "dwindle",
     },
 
     decoration = {
-        rounding         = 10,
-        rounding_power   = 2,
+        rounding         = 5,
+        rounding_power   = 5,
 
         -- Change transparency of focused and unfocused windows
-        active_opacity   = 1.0,
-        inactive_opacity = 1.0,
+        active_opacity   = 0.9,
+        inactive_opacity = 0.8,
 
         shadow           = {
             enabled      = true,
@@ -240,7 +238,7 @@ hl.config({
         sensitivity  = 0, -- -1.0 - 1.0, 0 means no modification.
 
         touchpad     = {
-            natural_scroll = false,
+            natural_scroll = true,
         },
     },
 })
@@ -265,36 +263,57 @@ hl.device({
 
 local mainMod = "SUPER" -- Sets "Windows" key as main modifier
 
--- 基本操作
 -- Example binds, see https://wiki.hypr.land/Configuring/Basics/Binds/ for more
--- ターミナルを開く
-hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd(terminal))
--- ウィンドウを閉じる
-local closeWindowBind = hl.bind(mainMod .. " + C", hl.dsp.window.close())
--- closeWindowBind:set_enabled(false)
+-- local closeWindowBind = hl.bind(mainMod .. " + C", hl.dsp.window.close())
+-- hyprlandを終了する
 hl.bind(mainMod .. " + M",
     hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"))
-hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
+
+-- == ウィンドウ操作系
+-- ウィンドウを閉じる
+hl.bind(mainMod .. " + C", hl.dsp.window.close())
+-- ウィンドウフロート切り替え
 hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
-hl.bind(mainMod .. " + Space", hl.dsp.exec_cmd(menu .. " toggle"))
+-- ?
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
-hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit")) -- dwindle only
+-- 分割の水平/垂直切り替え
+hl.bind(mainMod .. " + d", hl.dsp.layout("togglesplit")) -- dwindle only
+-- フォーカスするウィンドウを移動
+hl.bind(mainMod .. " + h", hl.dsp.focus({ direction = "left" }))
+hl.bind(mainMod .. " + l", hl.dsp.focus({ direction = "right" }))
+hl.bind(mainMod .. " + k", hl.dsp.focus({ direction = "up" }))
+hl.bind(mainMod .. " + j", hl.dsp.focus({ direction = "down" }))
+-- Move/resize windows with mainMod + LMB/RMB and dragging
+hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })
+hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
+
+-- == アプリケーションを開く系
+-- ターミナルを開く
+hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd(terminal))
+-- ファイルマネージャを開く
+hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
+-- ランチャーを開く
+hl.bind(mainMod .. " + Space", hl.dsp.exec_cmd(menu .. " toggle"))
 -- ブラウザを開く
 hl.bind(mainMod .. " + B", hl.dsp.exec_cmd(browser))
 
+-- waybarの設定を更新する
+hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("pkill waybar && waybar & disown"))
 
--- Move focus with mainMod + arrow keys
-hl.bind(mainMod .. " + left", hl.dsp.focus({ direction = "left" }))
-hl.bind(mainMod .. " + right", hl.dsp.focus({ direction = "right" }))
-hl.bind(mainMod .. " + up", hl.dsp.focus({ direction = "up" }))
-hl.bind(mainMod .. " + down", hl.dsp.focus({ direction = "down" }))
+-- よく使うアプリケーションを開く
+hl.bind(mainMod .. " + CTRL + Return", function()
+    hl.exec_cmd(terminal, { workspace = "1" })
+    hl.exec_cmd(browser .. " https://music.apple.com/jp/library/recently-added", { workspace = "2" })
+end)
 
--- Switch workspaces with mainMod + [0-9]
--- Move active window to a workspace with mainMod + SHIFT + [0-9]
+-- == ワークスペース系
+-- 矢印キーでワークスペース切り替え
+hl.bind(mainMod .. " + " .. "Left", hl.dsp.focus({ workspace = "-1" }))
+hl.bind(mainMod .. " + " .. "Right", hl.dsp.focus({ workspace = "+1" }))
 for i = 1, 10 do
     local key = i % 10 -- 10 maps to key 0
-    hl.bind(mainMod .. " + " .. key, hl.dsp.focus({ workspace = i }))
-    hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }))
+    -- アクティブウィンドウを指定のワークスペースに移動
+    hl.bind(mainMod .. " + CTRL + " .. key, hl.dsp.window.move({ workspace = i }))
 end
 
 -- Example special workspace (scratchpad)
@@ -305,11 +324,9 @@ hl.bind(mainMod .. " + SHIFT + S", hl.dsp.window.move({ workspace = "special:mag
 hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
 hl.bind(mainMod .. " + mouse_up", hl.dsp.focus({ workspace = "e-1" }))
 
--- Move/resize windows with mainMod + LMB/RMB and dragging
-hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })
-hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
--- Laptop multimedia keys for volume and LCD brightness
+-- == 音楽系
+--マルチメディアキーを使えるようにする
 hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"),
     { locked = true, repeating = true })
 hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"),
@@ -318,15 +335,16 @@ hl.bind("XF86AudioMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ to
     { locked = true, repeating = true })
 hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"),
     { locked = true, repeating = true })
-hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%+"), { locked = true, repeating = true })
-hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%-"), { locked = true, repeating = true })
 
--- Requires playerctl
+-- 要playerctl
 hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), { locked = true })
 hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
 
+-- 明るさ調整キーを使えるようにする LCD brightness
+hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%+"), { locked = true, repeating = true })
+hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%-"), { locked = true, repeating = true })
 
 --------------------------------
 ---- WINDOWS AND WORKSPACES ----
