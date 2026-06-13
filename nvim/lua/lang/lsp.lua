@@ -87,7 +87,13 @@ local server_opts = {
     -- html
     html = {},
     -- css
-    cssls = {},
+    cssls = {
+        settings = {
+            css = {
+                lint = { unknownAtRules = "ignore" }
+            },
+        }
+    },
     -- javascript
     -- lwc_ls = {},
     -- bash
