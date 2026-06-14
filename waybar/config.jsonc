@@ -1,6 +1,6 @@
 {
     // == レイアウト
-    "layer": "top",
+    "layer": "bottom",
     "margin": "0px 0px 1px 0px",
     "modules-left": [
         "hyprland/workspaces",
