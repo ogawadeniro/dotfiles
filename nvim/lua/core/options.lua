@@ -14,6 +14,7 @@ vim.opt.wrap = false
 vim.opt.hidden = true
 vim.opt.laststatus = 3
 vim.opt.cmdheight = 0
+vim.opt.scrolloff = 3
 
 -- タブ、インデント系
 vim.opt.tabstop = 4
