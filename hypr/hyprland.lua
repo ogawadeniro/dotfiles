@@ -99,19 +99,20 @@ hl.env("HYPRCURSOR_SIZE", "24")
 -- Refer to https://wiki.hypr.land/Configuring/Basics/Variables/
 hl.config({
     general = {
-        gaps_in          = 0,
-        gaps_out         = 1,
-        border_size      = 1,
-        col              = {
-            -- active_border   = { colors = { "rgba(cc33ffee)", "rgba(33ccffee)" }, angle = 20 },
+        --gaps_in          = 0,
+        gaps_in       = 2,
+        gaps_out      = 1,
+        --border_size      = 1,
+        border_size   = 0,
+        col           = {
             active_border   = { colors = { "rgba(cc33ff99)", "rgba(cc33ff77)" }, angle = 20 },
             inactive_border = "rgba(7733aa44)",
         },
         -- Set to true to enable resizing windows by clicking and dragging on borders and gaps
-        resize_on_border = true,
+        -- resize_on_border = true,
         -- Please see https://wiki.hypr.land/Configuring/Advanced-and-Cool/Tearing/ before you turn this on
-        allow_tearing    = false,
-        layout           = "dwindle",
+        allow_tearing = false,
+        layout        = "dwindle",
     },
 
     decoration = {
@@ -120,7 +121,7 @@ hl.config({
 
         -- Change transparency of focused and unfocused windows
         active_opacity   = 0.9,
-        inactive_opacity = 0.8,
+        inactive_opacity = 0.7,
 
         shadow           = {
             enabled      = true,
@@ -131,7 +132,7 @@ hl.config({
 
         blur             = {
             enabled  = true,
-            size     = 3,
+            size     = 6,
             passes   = 1,
             vibrancy = 0.1696,
         },
@@ -272,9 +273,12 @@ hl.bind(mainMod .. " + M",
 -- == ウィンドウ操作系
 -- ウィンドウを閉じる
 hl.bind(mainMod .. " + C", hl.dsp.window.close())
--- ウィンドウフロート切り替え
+-- -- ウィンドウフロート切り替え
 hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
--- ?
+-- フルスクリーンに切り替え
+hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen_state({ internal = 2, client = 2, action = "toggle" }))
+
+
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 -- 分割の水平/垂直切り替え
 hl.bind(mainMod .. " + d", hl.dsp.layout("togglesplit")) -- dwindle only
