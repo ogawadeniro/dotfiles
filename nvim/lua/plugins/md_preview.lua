@@ -22,7 +22,6 @@ vim.pack.add({
 vim.api.nvim_create_autocmd("PackChanged", {
     callback = function(ev)
         local name, kind = ev.data.spec.name, ev.data.kind
-        vim.notify("!!!!!!!!!!PackChanged!!!!!!!!!! name: " .. name)
         if name == "peek.nvim" and kind == "update" then
             if not ev.data.active then vim.cmd.packadd("peek") end
             vim.system({ "deno", "task", "--quiet", "build:fast" }, { cwd = ev.data.path })

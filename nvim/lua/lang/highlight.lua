@@ -60,7 +60,6 @@ require('nvim-treesitter').install(install_parsers)
 vim.api.nvim_create_autocmd("PackChanged", {
     callback = function(ev)
         local name, kind = ev.data.spec.name, ev.data.kind
-        vim.notify("!!!!!!!!!!PackChanged!!!!!!!!!! name: " .. name)
         if name == "nvim-treesitter" and kind == "update" then
             vim.cmd("TSUpdate")
             vim.notify("treesitterをアップデートしたのでTSUpdateを実行したよ")
