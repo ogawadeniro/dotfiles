@@ -48,4 +48,4 @@ alias vim="nvim"
 alias grep='rg --color=auto'
 alias diff='diff --color=auto'
 alias df='dif -h'
-alias dot="nvim ${HOME}/.dotfiles"
+alias dot="cd ${HOME}/.dotfiles && nvim"
