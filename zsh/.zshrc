@@ -101,10 +101,10 @@ _zplugin_load zdharma-continuum fast-syntax-highlighting
 # ------------------------------------------------------------------------------
 # ツール環境変数設定
 # ------------------------------------------------------------------------------
-# SSHキーチェーン設定
-# eval $(keychain --eval --quiet git_id_ed25519 sakura_id_ed25519)
-eval $(keychain --eval --quiet)
-alias ssh="keychain --eval id_ed25519 && ssh"
+# ssh-agentのための環境変数設定
+if [ -z "$SSH_AUTH_SOCK" ]; then
+    export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+fi
 
 # opencode
 export PATH=/home/rogawa/.opencode/bin:$PATH
@@ -137,5 +137,7 @@ if [ -e "$HOME/.deno/env" ]; then
     . "$HOME/.deno/env"
 fi
 
+# ------------------------------------------------------------------------------
 # ねこ
+# ------------------------------------------------------------------------------
 bash "$ZDOTDIR/cat.sh"
