@@ -221,7 +221,6 @@ hl.config({
     },
 })
 
-
 ---------------
 ---- INPUT ----
 ---------------
@@ -233,6 +232,8 @@ hl.config({
         kb_model     = "",
         kb_options   = "",
         kb_rules     = "",
+
+        repeat_delay = 200,
 
         follow_mouse = 1,
 
@@ -277,19 +278,30 @@ hl.bind(mainMod .. " + C", hl.dsp.window.close())
 hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
 -- フルスクリーンに切り替え
 hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen_state({ internal = 2, client = 2, action = "toggle" }))
-
-
+-- 疑似ウィンドウ切り替え
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 -- 分割の水平/垂直切り替え
 hl.bind(mainMod .. " + d", hl.dsp.layout("togglesplit")) -- dwindle only
 -- フォーカスするウィンドウを移動
+-- hl.bind(mainMod .. " + Tab", hl.dsp.window.cycle_next())
 hl.bind(mainMod .. " + h", hl.dsp.focus({ direction = "left" }))
 hl.bind(mainMod .. " + l", hl.dsp.focus({ direction = "right" }))
 hl.bind(mainMod .. " + k", hl.dsp.focus({ direction = "up" }))
 hl.bind(mainMod .. " + j", hl.dsp.focus({ direction = "down" }))
+-- ウィンドウ移動
+hl.bind(mainMod .. " + CTRL + h", hl.dsp.window.move({ direction = "left" }))
+hl.bind(mainMod .. " + CTRL + l", hl.dsp.window.move({ direction = "right" }))
+hl.bind(mainMod .. " + CTRL + k", hl.dsp.window.move({ direction = "up" }))
+hl.bind(mainMod .. " + CTRL + j", hl.dsp.window.move({ direction = "down" }))
+-- ウィンドウリサイズ
+hl.bind("SUPER + CTRL + Right", hl.dsp.window.resize({ x = 20, y = 0, relative = true }), { repeating = true })
+hl.bind("SUPER + CTRL + Left", hl.dsp.window.resize({ x = -20, y = 0, relative = true }), { repeating = true })
+hl.bind("SUPER + CTRL + Up", hl.dsp.window.resize({ x = 0, y = -20, relative = true }), { repeating = true })
+hl.bind("SUPER + CTRL + Down", hl.dsp.window.resize({ x = 0, y = 20, relative = true }), { repeating = true })
+
 -- Move/resize windows with mainMod + LMB/RMB and dragging
-hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })
-hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
+-- hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })
+-- hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
 -- == アプリケーションを開く系
 -- ターミナルを開く
@@ -302,12 +314,12 @@ hl.bind(mainMod .. " + Space", hl.dsp.exec_cmd(menu .. " toggle"))
 hl.bind(mainMod .. " + B", hl.dsp.exec_cmd(browser))
 
 -- waybarの設定を更新する
-hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("pkill waybar && waybar & disown"))
+-- hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("pkill waybar && waybar & disown"))
 
 -- よく使うアプリケーションを開く
 hl.bind(mainMod .. " + CTRL + Return", function()
-    hl.exec_cmd(terminal, { workspace = "1" })
-    hl.exec_cmd(browser .. " https://music.apple.com/jp/library/recently-added", { workspace = "2" })
+    hl.exec_cmd(terminal, { workspace = "2" })
+    hl.exec_cmd(browser .. " https://music.apple.com/jp/library/recently-added", { workspace = "1" })
 end)
 
 -- == ワークスペース系
@@ -317,7 +329,7 @@ hl.bind(mainMod .. " + " .. "Right", hl.dsp.focus({ workspace = "+1" }))
 for i = 1, 10 do
     local key = i % 10 -- 10 maps to key 0
     -- アクティブウィンドウを指定のワークスペースに移動
-    hl.bind(mainMod .. " + CTRL + " .. key, hl.dsp.window.move({ workspace = i }))
+    hl.bind(mainMod .. " + " .. key, hl.dsp.window.move({ workspace = i }))
 end
 
 -- Example special workspace (scratchpad)
