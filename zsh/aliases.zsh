@@ -16,7 +16,7 @@ fi
 
 # == rmをラップして、削除したファイルをゴミ箱に入れるようにする
 rm_wrap() {
-    local trash_dir="~/.local/share/Trash/files"
+    local trash_dir="${HOME}/.local/share/Trash/files"
     if [ ! -e trash_dir ]; then
         mkdir -p ${trash_dir}
     fi
