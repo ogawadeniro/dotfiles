@@ -102,3 +102,6 @@ hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true 
 -- 明るさ調整キーを使えるようにする LCD brightness
 hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%+"), { locked = true, repeating = true })
 hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%-"), { locked = true, repeating = true })
+
+-- スクリーンショット起動
+hl.bind("Print", hl.dsp.exec_cmd('grim -g "$(slurp)" ~/ScreenShots/$(date +%Y%m%d_%H%M%S).png'))
