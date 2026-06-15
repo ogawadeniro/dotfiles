@@ -35,7 +35,8 @@ vim.opt.fileencodings = { "utf-8", "sjis" }
 vim.opt.fileformats = { "unix", "mac", "dos" }
 -- vim.opt.ambiwidth = 'double'
 vim.opt.ambiwidth = "single"
-vim.cmd("language en_US.utf8")
+--vim.cmd("language en_US.utf8")
+vim.cmd("language ja_JP.utf8")
 
 -- クリップボード設定
 vim.opt.clipboard:append({ "unnamedplus" })
