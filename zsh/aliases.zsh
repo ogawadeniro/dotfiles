@@ -16,28 +16,33 @@ fi
 
 # == rmをラップして、削除したファイルをゴミ箱に入れるようにする
 rm_wrap() {
-    local trash_dir=~/.local/share/Trash/files
+    local trash_dir="~/.local/share/Trash/files"
+    if [ ! -e trash_dir ]; then
+        mkdir -p ${trash_dir}
+    fi
     mkdir -p "$trash_dir"
     for item in "$@"; do
         if [ -e "$item" ]; then
+            # 捨て先に同名のファイルがなくなるまでサフィックスをインクリメントする。
             local suffix=""
             for i in $(seq 1 100); do
+                # 捨てる先のパスに同じ名前のファイルがあるかどうか判定
                 local dst="${trash_dir}/$(basename "$item")${suffix}"
-                # 捨てる先のパスに同じ名前のファイルがなかったら捨てて終わる
                 if [ ! -e "${dst}" ]; then
+                    # 捨てる
                     mv "$item" "$dst"
                     if [ $? -eq 0 ]; then
-                        echo "Moved to trash: $item"
-                        break
+                        echo "Moved to ${trash_dir}: ${item}"
                     else
-                        echo "Failed to trash: $item"
+                        echo "\e[31mFailed to trash: $item"
                     fi
+                    break
                 fi
-                # 同じ名前のファイルがあったらサフィックスを変える
+                # 同名のファイルがあったらサフィックスをインクリメント
                 suffix="_${i}"
             done
         else
-            echo "rm: cannot remove '$item': No such file or directory" >&2
+            echo "\e[31mrm_wrap:\e[0m cannot remove '$item': No such file or directory" >&2
         fi
     done
 }
