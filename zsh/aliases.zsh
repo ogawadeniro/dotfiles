@@ -41,7 +41,8 @@ rm_wrap() {
         fi
     done
 }
-alias rmv=rm_wrap
+alias rm=rm_wrap
+alias rmv=/usr/bin/rm
 
 # 他
 alias vim="nvim"
