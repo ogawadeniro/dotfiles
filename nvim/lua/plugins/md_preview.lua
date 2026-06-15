@@ -34,7 +34,7 @@ vim.api.nvim_create_autocmd("PackChanged", {
 
 -- ブラウザが実行可能なときだけpeekをセットアップする
 local app_cmds = {
-    { 'google-chrome',        '--new-window' },
+    { 'chromium',             '--new-window' },
     { 'google-chrome-stable', '--new-window' },
 }
 local app
