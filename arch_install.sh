@@ -32,7 +32,7 @@ create_link() {
     fi
 }
 
-# create_link "$HOME/.dotfiles/ghostty" "$HOME/.config/ghostty"
+create_link "$HOME/.dotfiles/ghostty" "$HOME/.config/ghostty"
 create_link "$HOME/.dotfiles/nvim" "$HOME/.config/nvim"
 create_link "$HOME/.dotfiles/tmux" "$HOME/.config/tmux"
 create_link "$HOME/.dotfiles/zsh" "$HOME/.config/zsh"
