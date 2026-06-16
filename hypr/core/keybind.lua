@@ -108,4 +108,4 @@ hl.bind("Print", hl.dsp.exec_cmd('grim -g "$(slurp)" ~/ScreenShots/$(date +%Y%m%
 hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("pkill waybar && waybar & disown"))
 
 -- hyprlockを起動する
-hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("hyprlock"))
+hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("wlogout"))
