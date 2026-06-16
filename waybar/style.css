@@ -5,17 +5,6 @@
 @define-color foreground #cdd6f4;
 @define-color fg-active #dde6ff;
 @define-color error rgba(227, 81, 73, 1);
-@define-color dark9 rgba(27, 24, 27, 1);
-@define-color dark8 rgba(42, 39, 42, 1);
-@define-color dark7 rgba(70, 63, 70, 1);
-@define-color darK6 rgba(91, 82, 91, 1);
-@define-color dark5 rgba(122, 113, 113, 1);
-@define-color color1 rgba(122, 113, 113, 1);
-@define-color color2 rgba(122, 113, 113, 1);
-@define-color color3 rgba(122, 113, 113, 1);
-@define-color color4 rgba(122, 113, 113, 1);
-@define-color coLor5 rgba(122, 113, 113, 1);
-@define-color color6 rgba(122, 113, 113, 1);
 @define-color color-cpu rgba(113, 113, 150, 1);
 @define-color color-memory rgba(113, 150, 113, 1);
 @define-color color-bluetooth rgba(60, 113, 113, 1);
@@ -24,10 +13,10 @@
 /* 全体共通スタイル */
 * {
     font-family: Bizin Gothic NF, JetBrainsMono Nerd Font Propo;
-    font-size: 13px;
+    font-size: 15px;
     min-height: 0;
     margin: 1px 0;
-    color: alpha(@foreground, 0.9);
+    color: alpha(@foreground, 1);
 }
 
 /* Waybar 背景 */
@@ -42,10 +31,10 @@ window#waybar {
 #audio,
 #media {
     border-radius: 10px;
-    /* border: 1px solid rgba(150, 113, 150, 0.7); */
+    border: 1px solid rgba(53, 43, 80, 0.9);
     margin: 0px 3px;
     padding: 1px 3px;
-    background-color: alpha(@highlight, 0.9);
+    background-color: rgba(53, 43, 80, 0.6);
 }
 
 #audio,

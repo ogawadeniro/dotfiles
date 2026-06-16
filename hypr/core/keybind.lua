@@ -54,9 +54,6 @@ hl.bind(mainMod .. " + Space", hl.dsp.exec_cmd(programs.menu .. " toggle"))
 -- ブラウザを開く
 hl.bind(mainMod .. " + B", hl.dsp.exec_cmd(programs.browser))
 
--- waybarの設定を更新する
--- hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("pkill waybar && waybar & disown"))
-
 -- よく使うアプリケーションを開く
 hl.bind(mainMod .. " + CTRL + Return", function()
     hl.exec_cmd(programs.terminal, { workspace = "2" })
@@ -99,9 +96,13 @@ hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = tr
 hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
 
+-- == 他
 -- 明るさ調整キーを使えるようにする LCD brightness
 hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%+"), { locked = true, repeating = true })
 hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%-"), { locked = true, repeating = true })
 
 -- スクリーンショット起動
 hl.bind("Print", hl.dsp.exec_cmd('grim -g "$(slurp)" ~/ScreenShots/$(date +%Y%m%d_%H%M%S).png'))
+
+-- waybarの設定を更新する
+hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("pkill waybar && waybar & disown"))
