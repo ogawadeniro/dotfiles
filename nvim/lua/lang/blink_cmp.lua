@@ -1,14 +1,17 @@
 vim.pack.add({
-    { src = "https://github.com/saghen/blink.lib" },
-    { src = "https://github.com/saghen/blink.cmp" },
-    { src = "https://github.com/saghen/blink.compat" },
     { src = "https://github.com/rafamadriz/friendly-snippets" },
     {
         src = "https://github.com/L3MON4D3/LuaSnip",
         version = vim.version.range('v2.*'),
         lld = "make install_jsregexp"
-    }
+    },
+    { src = "https://github.com/saghen/blink.lib" },
+    { src = "https://github.com/saghen/blink.compat" },
+    { src = "https://github.com/saghen/blink.cmp" },
 })
+
+-- friendly-snippets読み込み
+require("luasnip.loaders.from_vscode").lazy_load()
 
 ---@type blink.cmp.Config
 local opts = {
