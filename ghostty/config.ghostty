@@ -37,6 +37,8 @@ theme = Material Ocean
 # ★★★★(青が紫でちょっと見にくいか。世界観はだいぶ好き)
  # theme = Blazer
 foreground = #cdd7f4
+# cursor-color = #ffcc00
+# cursor-text = #0f111a
 
 # ------------------------------------------------------------------------------
 # フォント設定
