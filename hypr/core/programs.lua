@@ -3,7 +3,7 @@
 ---------------------
 
 local programs = {
-    terminal    = "kitty",
+    terminal    = "ghostty",
     fileManager = "thunar",
     menu        = "vicinae",
     browser     = "google-chrome-stable",
