@@ -25,11 +25,17 @@ window-decoration = none
 # 色設定
 # ------------------------------------------------------------------------------
 # 背景を透過
-background-opacity = 0.9
+background-opacity = 0.90
 
-# カラーテーマ
-# ghostty +list-themes
-theme = Catppuccin Mocha
+# カラーテーマ (ghostty +list-themes)
+# ★★★★★(これできまり)
+theme = Material Ocean
+# ★★★★★(めっちゃすき。明度が低い)
+# theme = Kanso Zen
+# ★★★★★(シンプルだけどバランスがめちゃいい)
+# theme = Nvim Dark
+# ★★★★(青が紫でちょっと見にくいか。世界観はだいぶ好き)
+# theme = Blazer
 
 # ------------------------------------------------------------------------------
 # フォント設定
