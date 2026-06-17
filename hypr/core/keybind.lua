@@ -108,4 +108,7 @@ hl.bind("Print", hl.dsp.exec_cmd('grim -g "$(slurp)" ~/ScreenShots/$(date +%Y%m%
 hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("pkill waybar && waybar & disown"))
 
 -- hyprlockを起動する
-hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("wlogout"))
+hl.bind(mainMod .. " + X", hl.dsp.exec_cmd("wlogout"))
+
+-- 通知センタートグル
+hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("swaync-client -t"))
