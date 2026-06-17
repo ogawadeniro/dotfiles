@@ -50,8 +50,8 @@ return {
     git = {
         unstaged = { icon = "󰰐" },
         staged = { icon = "󰯬" },
-        -- unmerged ={icon = ""},
-        -- renamed ={icon = "➜"},
+        unmerged = { icon = "" },
+        renamed = { icon = "➜" },
         untracked = { icon = "󰰓" },
         deleted = { icon = "󰯵" },
         ignored = { icon = "󰰄" },
