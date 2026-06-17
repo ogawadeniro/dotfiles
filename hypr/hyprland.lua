@@ -107,6 +107,15 @@ hl.window_rule({
     no_focus = true,
 })
 
+hl.window_rule({
+    name = "krita-no-transparent",
+    match = {
+        class = "krita",
+    },
+    opacity = "1.0 override",
+    no_blur = true,
+})
+
 -- Layer rules also return a handle.
 -- local overlayLayerRule = hl.layer_rule({
 --     name  = "no-anim-overlay",
