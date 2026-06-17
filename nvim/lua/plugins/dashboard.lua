@@ -59,16 +59,28 @@ require('dashboard').setup({
         packages = { enable = true },
         shortcut = {
             {
-                desc = '󰊳  Update',
-                group = '@function',
+                desc = '󰊳 Update',
+                group = 'DiagnosticWarn',
                 action = 'PackUpdate',
                 key = 'u'
             },
-            {
-                desc = '  Files',
+            { --
+                desc = '󰁣 Files',
                 group = '@function',
                 action = 'Telescope find_files',
                 key = 'f',
+            },
+            { --󰮔
+                desc = '󰮕 LiveGrep',
+                group = '@function',
+                action = 'Telescope live_grep',
+                key = 'g',
+            },
+            { --
+                desc = ' Quit',
+                group = 'NonText',
+                action = 'q',
+                key = 'q',
             },
 
         },
