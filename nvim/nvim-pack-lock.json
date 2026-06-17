@@ -5,12 +5,16 @@
       "src": "https://github.com/L3MON4D3/LuaSnip",
       "version": "2.0.0 - 3.0.0"
     },
+    "SchemaStore.nvim": {
+      "rev": "735540a7602bffd1b07deab7d508affb57b78c64",
+      "src": "https://github.com/b0o/SchemaStore.nvim"
+    },
     "backpack.nvim": {
       "rev": "d4428964cf5d1ae8c9a27ef3540251d41902e209",
       "src": "https://github.com/Mitch1000/backpack.nvim"
     },
     "blink.cmp": {
-      "rev": "13e7b50e7ba73ce781459da68d346925adfdb530",
+      "rev": "39682a9c737920578cf68887c21eaa4ce3845c67",
       "src": "https://github.com/saghen/blink.cmp"
     },
     "blink.compat": {
@@ -18,7 +22,7 @@
       "src": "https://github.com/saghen/blink.compat"
     },
     "blink.lib": {
-      "rev": "b127d48bf8e9ac9cf41f6e0fbead317503f76558",
+      "rev": "08ac9a9b873d3c7376e408a36c40c4131e2809ce",
       "src": "https://github.com/saghen/blink.lib"
     },
     "bufferline.nvim": {
@@ -26,7 +30,7 @@
       "src": "https://github.com/akinsho/bufferline.nvim"
     },
     "catppuccin": {
-      "rev": "0303a7208dba448c459767486a38a6ec05c4216b",
+      "rev": "49a926655a2f5579e9c276470fc300baaa49e524",
       "src": "https://github.com/catppuccin/nvim"
     },
     "clim": {
@@ -95,7 +99,7 @@
       "src": "https://github.com/mason-org/mason.nvim"
     },
     "mini.nvim": {
-      "rev": "a59a9b7fb0a42cbcf022938ee5f0724320b66f63",
+      "rev": "bf8169f3e518be8de3f88073ace37d91f576cb04",
       "src": "https://github.com/nvim-mini/mini.nvim"
     },
     "namu.nvim": {
@@ -111,7 +115,7 @@
       "src": "https://github.com/MunifTanjim/nui.nvim"
     },
     "nvim": {
-      "rev": "0303a7208dba448c459767486a38a6ec05c4216b",
+      "rev": "49a926655a2f5579e9c276470fc300baaa49e524",
       "src": "https://github.com/catppuccin/nvim"
     },
     "nvim-bufctl": {
@@ -151,7 +155,7 @@
       "src": "https://github.com/ogawadeniro/nvim-translator"
     },
     "nvim-tree.lua": {
-      "rev": "82f58063d67defc620e1ef8be606fc62a7b5dc1e",
+      "rev": "fb343438d49fba8c35ecc4829d66fca7a1f0ed3d",
       "src": "https://github.com/nvim-tree/nvim-tree.lua"
     },
     "nvim-treesitter": {
@@ -185,7 +189,7 @@
       "src": "https://github.com/nvim-telescope/telescope-fzf-native.nvim"
     },
     "telescope.nvim": {
-      "rev": "7d324792b7943e4aa16ad007212e6acc6f9fe335",
+      "rev": "9377230aa5305d9e9aca4ed8dadf1070fb4aa9fc",
       "src": "https://github.com/nvim-telescope/telescope.nvim"
     },
     "tiny-cmdline.nvim": {
