@@ -2,8 +2,8 @@ vim.pack.add({
     { src = "https://github.com/neovim/nvim-lspconfig" },
     { src = "https://github.com/mason-org/mason.nvim" },
     { src = "https://github.com/williamboman/mason-lspconfig.nvim" }, -- npm required
+    { src = "https://github.com/b0o/SchemaStore.nvim" },              --json scheme
 })
-
 -- ------------------------------------------------------------------------------
 -- LSP自動インストール設定
 -- ------------------------------------------------------------------------------
@@ -104,7 +104,14 @@ local server_opts = {
     openscad_lsp = {},
     -- データ記述系
     -- json
-    jsonls = {},
+    jsonls = {
+        settings = {
+            json = {
+                schemes = require("schemastore").json.schemas(),
+                validate = { enable = true },
+            }
+        }
+    },
     -- xml
     lemminx = {},
     -- markdown
