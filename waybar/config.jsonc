@@ -7,13 +7,13 @@
         "group/audio",
         "group/media"
     ],
-    // "modules-center": [
-    // "clock"
-    // ],
+    "modules-center": [
+        "group/system"
+    ],
     "modules-right": [
         "group/resources",
         "group/connections",
-        "group/system"
+        "group/powers"
     ],
     // == モジュール
     // ワークスペース
@@ -187,7 +187,14 @@
         "orientation": "horizontal",
         "modules": [
             "clock",
-            "tray",
+            "tray"
+            // "battery",
+            // "custom/power",
+        ]
+    },
+    "group/powers": {
+        "orientation": "horizontal",
+        "modules": [
             "battery",
             "custom/power"
         ]

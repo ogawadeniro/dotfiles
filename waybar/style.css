@@ -26,13 +26,15 @@ window#waybar {
 }
 
 /* グループのスタイル設定 */
-#system,
+#workspaces,
 #connections,
 #resources,
 #audio,
+#system,
+#powers,
 #media {
-    border-radius: 10px;
-    border: 1px solid rgba(53, 43, 80, 0.9);
+    border-radius: 15px;
+    /* border: 1px solid rgba(53, 43, 80, 0.9); */
     margin: 0px 3px;
     padding: 1px 3px;
     background-color: rgba(53, 43, 80, 0.6);
@@ -43,7 +45,7 @@ window#waybar {
     padding: 0px 8px;
 }
 
-/* モジュール共通スタイル */
+/* モジュール共通スタイル(余白) */
 #workspaces,
 #audio,
 #cpu,
@@ -51,14 +53,19 @@ window#waybar {
 #temperature,
 #network,
 #bluetooth,
-#custom-power,
+#battery,
 #clock,
 #tray {
     margin: 0 4px;
-    /* color: alpha(@foreground, 0.9); */
 }
 
-/* モジュール共通スタイル(ホバー時) */
+#custom-power {
+    margin: 0 0 0 3px;
+}
+
+/* モジュール共通スタイル(アクティブ時・ホバー時) */
+#workspaces button.active,
+#workspaces button.focused,
 #pulseaudio:hover,
 #pulseaudio-slider:hover,
 #cpu:hover,
@@ -98,6 +105,7 @@ window#waybar {
     transition: all 180ms ease-in-out;
 }
 
+/* 個別スタイル設定 */
 /* ワークスペース */
 #workspaces button {
     padding: 0px 4px;
@@ -108,12 +116,12 @@ window#waybar {
     color: alpha(@foreground, 1);
 }
 
-#workspaces button.active,
-#workspaces button.focused {
-    font-weight: 700;
-    background: alpha(@highlight, 0.9);
-    color: @foreground;
-}
+/* #workspaces button.active, */
+/* #workspaces button.focused { */
+/*     font-weight: 700; */
+/*     background: alpha(@highlight, 0.9); */
+/*     color: @foreground; */
+/* } */
 
 #workspaces button:hover {
     margin-top: 1px;
@@ -154,39 +162,4 @@ window#waybar {
     border-radius: 5px;
     /* background: alpha(@highlight, 1); */
     background: alpha(@foreground, 0.9);
-}
-
-
-/* 各モジュールの個別設定 */
-/* #cpu { */
-/*     color: alpha(@foreground, 0.9); */
-/* } */
-
-/* #memory { */
-/*     color: alpha(@foreground, 0.9); */
-/* } */
-
-/* #network { */
-/*     color: alpha(@foreground, 0.9); */
-/* } */
-
-/* #pulseaudio { */
-/*     color: alpha(@foreground, 0.9); */
-/* } */
-
-/* #bluetooth { */
-/*     color: alpha(@foreground, 0.9); */
-/* } */
-
-/* #clock { */
-/*     color: alpha(@foreground, 0.9); */
-/* } */
-
-/* #custom-power { */
-/*     color: alpha(@foreground, 0.9); */
-/* } */
-
-/* Tray icons */
-#tray {
-    padding: 0 4px;
 }
