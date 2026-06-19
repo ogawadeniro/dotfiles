@@ -1,6 +1,6 @@
 # AGENTS.md — rogawa/.dotfiles
 
-個人用 dotfiles (zsh, nvim, tmux, ghostty, opencode, hypr, waybar, kitty, fastfetch, wlogout, swaync, fontconfig)
+個人用 dotfiles (zsh, nvim, tmux, ghostty, opencode, hypr, waybar, kitty, fastfetch, wlogout, swaync, fontconfig, git)
 
 ## インストール
 
@@ -99,6 +99,12 @@ hypr/ を編集（`~/.config/hypr/` へ symlink）。
 - **wlogout/**: `layout` にログアウト・再起動・シャットダウン等のアクション定義
 - **swaync/**: `config.json` + `style.css`
 - **fastfetch/**: 主にヘッダ設定
+
+## Git
+
+- `git/` 配下のファイルは `~/` 直下に symlink（`install.sh` では未対応、手動で設定）
+- `.git_commit_template`: コミットメッセージのテンプレート。Workspace内にあるので権限不要で読み取り可能
+- `.gitconfig`: user.name / user.email 設定
 
 ## Fontconfig
 

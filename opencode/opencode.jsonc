@@ -8,11 +8,11 @@
             "rm -rf *": "deny",
             "sudo *": "deny"
         },
-        "read": {
-            "/home/rogawa/.git_commit_template": "allow"
-        },
         "edit": {
             "/tmp/*": "allow"
         }
+        // "read": {
+        //     "/home/rogawa/.dotfiles/*": "allow"
+        // }
     }
 }
