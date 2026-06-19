@@ -3,8 +3,7 @@
 ドットファイルたちを一括管理するためのリポジトリだよ  
 完全に個人用だよ  
 
-`./install.sh` を実行すると、本当のコンフィグディレクトリに symlink されるよ  
-install.shは環境ごとに分けているから、archlinuxの環境では`./arch_install.sh`を実行してね  
+`./ubuntu_install.sh` または `./arch_install.sh` を実行すると、`~/.config/` 以下に symlink を張るよ  
 
 以下、各ツールが依存している外部ツールやセットアップ方法について記載するよ  
 
@@ -119,5 +118,39 @@ filetypeのautocmdに対象ファイルタイプ追加する。
 ---
 
 # OpenCode
+
+特になし  
+
+---
+
+# Kitty
+
+特になし  
+
+---
+
+# Hyprland (Arch)
+
+| ツール | 用途 |
+|---|---|
+| **hyprlock** | ロック画面 |
+| **hyprpaper** | 壁紙 |
+| **hypridle** | アイドル管理 |
+
+---
+
+# waybar / wlogout / swaync (Arch)
+
+特になし  
+
+---
+
+# fastfetch
+
+特になし  
+
+---
+
+# fontconfig
 
 特になし  

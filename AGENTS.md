@@ -1,11 +1,12 @@
 # AGENTS.md — rogawa/.dotfiles
 
-個人用 dotfiles (zsh, nvim, tmux, ghostty, opencode)
+個人用 dotfiles (zsh, nvim, tmux, ghostty, opencode, hypr, waybar, kitty, fastfetch, wlogout, swaync, fontconfig)
 
 ## インストール
 
 ```sh
-./install.sh   # ~/.config/{ghostty,nvim,tmux,zsh,opencode} -> ~/.dotfiles/{ghostty,nvim,tmux,zsh,opencode}
+./ubuntu_install.sh  # Ubuntu
+./arch_install.sh    # Arch
 ```
 
 設定ファイルは `~/.dotfiles/` 以下を編集する。**`~/.config/` は触らない。**
@@ -43,6 +44,7 @@
 - bufctl のハイライト方式: icon + devicon hl_group → extmark (priority 200)、filename → extmark with Normal (priority 100)、term filename → extmark with `BufCtlTermName` (#a6e3a1)。`▶` / `` / `No Name` / `Term:` のみ matchadd で処理
 - bufctl ウィンドオプション: `winhighlight = Cursor:NormalFloat` (カーソル非表示), `cursorline = true`。閉じる時に `guicursor` を復元
 - 外部依存: treesitter-cli (nvim 0.12+)
+- `build.sh` — `:PackUpdate` 後など、plugin が自動ビルドされない時の手動ビルド用。peek (deno), telescope-fzf-native (make), blink.cmp (cargo), LuaSnip (make) に対応
 - Leader: `<Space>`。バッファ切替: `<Leader>h`/`<Leader>l`。Quickfix: `<Leader>c{n,p,f,l}`
 - **`custom/statusline.lua` アーキテクチャ**:
   - config → stat取得 → builder → dispatcher → 組立て の5層
@@ -68,7 +70,7 @@
 
 ## OpenCode
 
-- 設定は `~/.dotfiles/opencode/` を編集（`install.sh` が `~/.config/opencode/` へ symlink）
+- 設定は `~/.dotfiles/opencode/` を編集（`{ubuntu,arch}_install.sh` が `~/.config/opencode/` へ symlink）
 - `opencode.jsonc`: `default_agent = "plan"`、日本語応答指定、bash permission は `*` allow で `rm -rf *` / `sudo *` のみ deny
 - `tui.jsonc`: テーマ `catppuccin-macchiato`、leader `ctrl+x`、editor_open `<leader>e`
 - npm 依存 `@opencode-ai/plugin` あり
@@ -78,6 +80,27 @@
 - テーマ: Catppuccin Mocha。フォントサイズ: 11。背景透過度: 0.91。ウィンドウサイズ: 212x47。
 - clipboard-read/write = allow, mouse-hide-while-typing = true
 
-## テスト・CI・フォーマッタ・リンターなし
+## Kitty
 
-純粋な個人設定。ビルド・検証ステップは存在しない。
+- テーマ: Catppuccin Mocha (`current-theme.conf` を include)
+- `clipboard_control` で読み書き許可、`cursor_trail` 有効
+
+## Wayland Desktop (Arch 専用)
+
+hypr/ を編集（`~/.config/hypr/` へ symlink）。
+
+- **Hyprland**: `hyprland.lua` がエントリポイント。`core/` 配下を `require` で分割（autostart, looks, input, keybind, programs）
+- **hyprlock.conf**: ロック画面設定
+- **hyprpaper.conf**: 壁紙設定（`bg_images/ramu_chan.png`）
+
+その他の Arch 向け設定:
+
+- **waybar/**: `config.jsonc` + `style.css` + `custom/media/` に再生中表示スクリプト
+- **wlogout/**: `layout` にログアウト・再起動・シャットダウン等のアクション定義
+- **swaync/**: `config.json` + `style.css`
+- **fastfetch/**: 主にヘッダ設定
+
+## Fontconfig
+
+- `fonts.conf`: Noto Sans/Serif CJK JP, BIZ UD Gothic, JetBrainsMono Nerd Font Propo をフォールバック設定
+
