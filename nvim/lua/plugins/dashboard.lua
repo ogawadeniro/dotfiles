@@ -77,6 +77,12 @@ require('dashboard').setup({
                 key = 'g',
             },
             { --
+                desc = ' EditNew',
+                group = '@property',
+                action = 'enew',
+                key = 'e',
+            },
+            {
                 desc = ' Quit',
                 group = 'NonText',
                 action = 'q',
