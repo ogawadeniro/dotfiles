@@ -1,3 +1,5 @@
 [user]
 	name = ogawadeniro
 	email = ookawa14106@gmail.com
+[commit]
+	template = ~/.git_commit_template
