@@ -13,7 +13,7 @@ local install_parsers = {
     "vimdoc",
     "query", --treesitter query files
     -- ↑ここまではnvimデフォルトでパーサが存在する
-    -- ↓ここからは自力orTSInstallでパーサをインストールする必要あり
+    -- ↓ここからはrequire("nvim-treesitter").install()などでパーサをインストールする
     "rust",
     "python",
     "cpp",
@@ -34,6 +34,13 @@ local install_parsers = {
     "make",
     "cmake",
 }
+-- 自前でインストールしたパーサーのリスト
+local own_parsers = {
+    "openscad",
+}
+-- 自前インストールメモ
+-- 言語名.so配置先: ~/.local/share/nvim/site/parser/言語名.so
+-- queryフォルダ配置先: ~/.local/share/nvim/site/queries/言語名フォルダ
 
 -- ファイルタイプとパーサの対応表(ftとパーサ名が違うものだけ定義)
 local ft_parser_compat = {
@@ -43,7 +50,7 @@ local ft_parser_compat = {
 }
 
 -- treesitterを有効にするファイルタイプ名のリスト
-local filetypes = vim.deepcopy(install_parsers)
+local filetypes = vim.tbl_deep_extend("force", install_parsers, own_parsers)
 for ft, _ in pairs(ft_parser_compat) do
     table.insert(filetypes, ft)
 end
@@ -52,7 +59,6 @@ end
 -- 自動インストール設定
 -- ------------------------------------------------------------------------------
 require('nvim-treesitter').install(install_parsers)
--- require("nvim-treesitter.install").ensure_installed()
 
 -- ------------------------------------------------------------------------------
 -- treesitterアップデート時にTSUpdateを実行する
