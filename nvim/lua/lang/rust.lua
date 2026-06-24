@@ -3,9 +3,30 @@ vim.pack.add({
     {
         src = "https://github.com/mrcjkb/rustaceanvim",
         version = vim.version.range('^9')
-    }, -- version = '^9',
+    },
 
 })
+
+vim.g.rustaceanvim = {
+    server = {
+        on_attach = function(client, bufnr)
+            -- ここにLSPアタッチ時の共通処理（キーマップなど）を記述できます
+        end,
+        default_settings = {
+            ['rust-analyzer'] = {
+                completion = {
+                    autoimport = { enable = true },
+                },
+                cargo = {
+                    allFeatures = true,
+                },
+                procMacro = {
+                    enable = true,
+                },
+            },
+        },
+    },
+}
 
 -- [ nvim-dap設定 ]
 vim.pack.add({

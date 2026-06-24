@@ -7,7 +7,8 @@ vim.pack.add({
 -- ------------------------------------------------------------------------------
 -- LSP自動インストール設定
 -- ------------------------------------------------------------------------------
---Mason有効化(lspをMasonでインストールせず、システム側などでインストールする場合は不要。)
+-- MasonではLSPの自動インストールだけを行うようにする。
+-- lspをMasonでインストールせず、システム側などでインストールする場合は不要。
 require("mason").setup({})
 require("mason-lspconfig").setup({
     --インストールするサーバリスト
@@ -32,6 +33,7 @@ require("mason-lspconfig").setup({
         "ansiblels",  -- ansisble
         "terraformls" -- terafform
     },
+    automatic_enable = false,
     automatic_installation = true,
 })
 
