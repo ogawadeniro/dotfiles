@@ -58,6 +58,10 @@
       "rev": "06f51922ca43d5cdacf96725c106405fe064c59e",
       "src": "https://github.com/shellRaining/hlchunk.nvim"
     },
+    "image.nvim": {
+      "rev": "88351f1f7d9dbae286e671ce3690a49660dd8a5c",
+      "src": "https://github.com/3rd/image.nvim"
+    },
     "lsp_signature.nvim": {
       "rev": "b7ace9ddb1640ce266012a45a672dfdaedfa5ec6",
       "src": "https://github.com/ray-x/lsp_signature.nvim"
