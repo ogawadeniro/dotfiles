@@ -27,6 +27,14 @@ local opts = {
                 cmp.show()
             end
         },
+        ['<C-p>'] = {
+            function(cmp)
+                if cmp.is_active() then
+                    cmp.select_prev()
+                end
+                cmp.show()
+            end
+        },
         -- ['<A-Right>'] = { 'snippet_forward', 'fallback' },
         -- ['<A-Left>'] = { 'snippet_backward', 'fallback' },
         -- ["<C-k>"] = { "scroll_documentation_up", "fallback" },
