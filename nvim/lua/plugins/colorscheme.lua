@@ -45,8 +45,4 @@ local cs_setups = {
     end,
 }
 
-local function enable_colorscheme(colorscheme)
-    cs_setups[colorscheme]()
-end
-
-enable_colorscheme("catppuccin")
+cs_setups["catppuccin"]()
