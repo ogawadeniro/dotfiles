@@ -5,6 +5,20 @@ vim.pack.add({
     { src = "https://github.com/nvim-tree/nvim-tree.lua" },
     { src = "https://github.com/nvim-tree/nvim-web-devicons" },
 })
+vim.pack.add({ { src = "https://github.com/3rd/image.nvim" } })
+require("image").setup({
+    backend = 'kitty',
+    processor = 'magick_cli',
+    integrations = {
+        markdown = {
+            enabled = true,
+            clear_in_insert_mode = true,
+            only_render_image_at_cursor = false,
+            floating_windows = false,
+        },
+    },
+    max_height_window_percentage = 50,
+})
 
 local nvimtree = require('nvim-tree')
 vim.g.loaded_netrw = 1
@@ -16,23 +30,14 @@ local gheight = vim.api.nvim_list_uis()[1].height
 local gwidth = vim.api.nvim_list_uis()[1].width
 local width = math.floor(gwidth / 2)
 local height = gheight - 4
+
 ---@type nvim_tree.config
 local opts = {
     view = {
-        -- width = 30,
-        -- relativenumber = false,
         -- float を有効化する
         float = {
             enable = true,
             quit_on_focus_loss = true, -- ツリー外を非表示（フォーカスが外れたら閉じる）
-            -- open_win_config = {
-            --     relative = "editor",
-            --     border = "rounded", -- 外枠のスタイル ("rounded", "single", "double" など)
-            --     width = 40,         -- ウィンドウの幅
-            --     height = 30,        -- ウィンドウの高さ
-            --     row = 1,            -- 表示する上からの位置
-            --     col = 1,            -- 表示する左からの位置
-            -- },
             open_win_config = {
                 title = " Nvim Tree ",
                 title_pos = "center",
@@ -95,7 +100,6 @@ local opts = {
         end
 
         -- デフォルトマッピング
-        -- treeapi.config.mappings.default_on_attach(bufnr)
         treeapi.map.on_attach.default(bufnr)
 
         -- カスタムマッピング
@@ -119,55 +123,8 @@ local opts = {
         vim.keymap.set('n', 'zR', treeapi.tree.expand_all, opts('フォルダをすべて展開'))
         -- ヘルプの表示/非表示切り替え
         vim.keymap.set('n', '?', treeapi.tree.toggle_help, opts('Help'))
-        -- 画像ビュワーで開く
-        vim.keymap.set('n', 'i', function()
-            -- カーソル下のノードを取得
-            local node = treeapi.tree.get_node_under_cursor()
-            -- パス取得
-            local abs_path = node.absolute_path
-
-            -- 画像ファイルでない場合は終了
-            -- TODO luaの正規表現でパイプが使えない。いままでどうしてたっけ。
-            local ext = string.match(abs_path, "%..+$") or ""               -- 対象ファイルの拡張子
-            local image_ext_list = { "jpeg", "jpg", "png", "svg", "webp", } -- 画像ファイル拡張子の一覧
-            local is_image_file = false                                     -- 画像ファイルかどうか
-
-            for _, image_ext in ipairs(image_ext_list) do
-                if "." .. image_ext == ext then
-                    is_image_file = true
-                    break
-                end
-            end
-            -- 画像ファイルではない場合は、メッセージを出して終了。
-            if is_image_file == false then
-                vim.notify(
-                    "選択した'" .. ext .. "' は画像ファイルじゃないみたい。 \n" ..
-                    "もし画像ファイルなのにこのメッセージが表示されていたら、設定ファイルの変数image_ext_listに拡張子を追加してね",
-                    vim.log.levels.WARN, { title = "nvim-tree" })
-                return
-            end
-
-            -- osごとに画像ビュワーを変更
-            local cmd = ""
-            if vim.fn.has('linux') then
-                cmd = "eog " .. abs_path
-            elseif vim.fn.has('win32') or vim.fn.has('win64') then
-                cmd = ""
-                -- cmd = 'powershell -Command Invoke-Item " ' .. abs_path .. '"'
-            end
-            -- コマンドを設定していないOSは何もしない
-            if cmd == "" then
-                vim.notify("このOSでは画像ビュワーを開くコマンドが設定されてないみたい。\nもし動かしたかったら設定ファイルに追加してね", vim.log.levels.ERROR,
-                    { title = "nvim-tree" })
-                return
-            end
-
-            -- 画像ビュワーを非同期で開く
-            vim.fn.jobstart(cmd)
-        end, opts('Open: Image viewer'))
     end,
 }
-
 nvimtree.setup(opts)
 
 -- highlihght settings
@@ -178,10 +135,6 @@ vim.cmd("hi NvimTreeGitNew guifg=#1a9dc4")
 -- vim.cmd("hi NvimTreeSpecialFile guifg=#ff80ff gui=underline")
 -- vim.cmd("hi NvimTreeSymlink     guifg=Yellow  gui=italic   ")
 -- vim.cmd("hi link NvimTreeImageFile   Title                      ")
-
-vim.pack.add({
-    { src = "https://github.com/stevearc/oil.nvim.git" },
-})
 
 -- ------------------------------------------------------------------------------
 -- mini files
