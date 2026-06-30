@@ -1,0 +1,55 @@
+/* 画面全体の背景設定 */
+window {
+    background-color: rgba(30, 30, 46, 0.85);
+    font-family: "JetBrainsMono Nerd Font", sans-serif;
+}
+
+/* すべてのボタンの共通スタイル */
+button {
+    background-color: rgba(49, 50, 68, 0.6);
+    color: #cdd6f4;
+    border: 2px solid #cdd6f4;
+    border-radius: 15px;
+    margin: 10px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 25%;
+    font-size: 18px;
+    /* アイコンの大きさ */
+    transition: all 0.3s ease;
+    box-shadow: none;
+}
+
+/* ボタンにカーソルを乗せたとき（ホバー） */
+/* button:hover, */
+button:focus {
+    background-color: rgba(203, 166, 247, 0.6);
+    color: #cdd6f4;
+    border-color: #cba6f7;
+    text-shadow: none;
+}
+
+/* アイコン画像割り当て */
+#hibernate {
+    background-image: url("/usr/share/wlogout/icons/hibernate.png");
+}
+
+#shutdown {
+    background-image: url("/usr/share/wlogout/icons/shutdown.png");
+}
+
+#reboot {
+    background-image: url("/usr/share/wlogout/icons/reboot.png");
+}
+
+#logout {
+    background-image: url("/usr/share/wlogout/icons/logout.png");
+}
+
+#suspend {
+    background-image: url("/usr/share/wlogout/icons/suspend.png");
+}
+
+#lock {
+    background-image: url("/usr/share/wlogout/icons/lock.png");
+}
