@@ -29,9 +29,10 @@ require("mason-lspconfig").setup({
         "yamlls",        -- yaml
         -- tool系
         -- "cmake",         -- cmake
-        "dockerls",   -- dockerfile
-        "ansiblels",  -- ansisble
-        "terraformls" -- terafform
+        "dockerls",    -- dockerfile
+        "ansiblels",   -- ansisble
+        "terraformls", -- terafform
+        "sqls",
     },
     automatic_enable = false,
     automatic_installation = true,
@@ -127,6 +128,8 @@ local server_opts = {
     terraformls = {},
     -- ansible
     ansiblels = {},
+    -- sql
+    sqls = {},
 }
 
 -- ------------------------------------------------------------------------------
