@@ -116,9 +116,13 @@
         ]
     },
     "network": {
-        "format-wifi": " {essid}",
-        "format-ethernet": "󰈀 {ipaddr}/{cidr}",
+        // "format-wifi": " {essid}",
+        // "format-ethernet": "󰈀 {ipaddr}/{cidr}",
+        "format-wifi": " ",
+        "format-ethernet": "󰈀 ",
         "format-disconnected": "󰤭 ",
+        "tooltip-format-ethernet": "<tt><small>{ifname}: {ipaddr}/{cidr}</small></tt>",
+        "tooltip-format-wifi": "<tt><small>{ifname}:{essid}: {ipaddr}/{cidr}</small></tt>",
         "on-click": "ghostty +new-window -e nmtui"
     },
     "bluetooth": {
@@ -127,10 +131,10 @@
         // "format-connected": " {device_alias}",
         // "format-connected-battery": " {device_alias} {device_battery_percentage}%",
         // "format-device-preference": [ "device1", "device2" ], // preference list deciding the displayed device
-        // "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
-        // "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
-        // "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
-        // "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
+        "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+        "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+        "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+        "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
         "on-click": "ghostty +new-window -e bluetui"
     },
     "group/connections": {
@@ -142,7 +146,7 @@
     },
     // システム系?
     "tray": {
-        "icon-size": 15,
+        "icon-size": 14,
         "spacing": 10
     },
     "battery": {
