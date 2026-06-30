@@ -57,6 +57,11 @@ vim.opt.fillchars:append({
 vim.opt.listchars:append({ tab = "^-", space = "_", eol = "$" })
 vim.opt.matchpairs:append({ "<:>" })
 
+-- 折りたたみ
+vim.opt.foldmethod = 'expr'
+vim.opt.foldexpr = 'v:lua.vim.lsp.foldexpr()'
+vim.opt.foldlevel = 99 -- バッファを開いたときにすべての折り畳みを展開する（値が大きいほど開く）
+
 -- path
 vim.opt.path:append("**")
 
