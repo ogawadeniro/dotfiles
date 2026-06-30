@@ -11,7 +11,10 @@ vim.g.mapleader = " "
 vim.keymap.set("n", "<leader>r", function()
     vim.cmd("bufdo e!")
     vim.notify("全バッファを再読込したよ")
-end, { desc = "全バッファ再読込" })
+end, { noremap = true, desc = "全バッファ再読込" })
+
+-- ファイル保存
+vim.keymap.set("n", "<C-s>", "<CMD>w<CR>", { noremap = true })
 
 -- ブラウザを開く
 local function open_browser()
@@ -225,6 +228,32 @@ vim.keymap.set("n", "<leader>;", "", {
 -- ------------------------------------------------------------------------------
 -- 移動系
 -- ------------------------------------------------------------------------------
+-- かな移動
+local move_prefix = { f = "f	", F = "F	", t = "t	", T = "T	" }
+local char_maps = {
+    { ".", "。" }, { ",", "、" },
+    { "a", "あ" }, { "i", "い" }, { "u", "う" }, { "e", "え" }, { "o", "お" },
+    { "ka", "か" }, { "ki", "き" }, { "ku", "く" }, { "ke", "け" }, { "ko", "こ" },
+    { "ga", "が" }, { "gi", "ぎ" }, { "gu", "ぐ" }, { "ge", "げ" }, { "go", "ご" },
+    { "sa", "さ" }, { "si", "し" }, { "su", "す" }, { "se", "せ" }, { "so", "そ" },
+    { "za", "ざ" }, { "ji", "し" }, { "zu", "ず" }, { "ze", "ぜ" }, { "zo", "ぞ" },
+    { "ta", "た" }, { "ti", "ち" }, { "tu", "つ" }, { "te", "て" }, { "to", "と" },
+    { "da", "だ" }, { "di", "ぢ" }, { "du", "づ" }, { "de", "で" }, { "do", "ど" },
+    { "na", "な" }, { "ni", "に" }, { "nu", "ぬ" }, { "ne", "ね" }, { "no", "の" },
+    { "ha", "は" }, { "hi", "ひ" }, { "hu", "ふ" }, { "he", "へ" }, { "ho", "ほ" },
+    { "ba", "ば" }, { "bi", "び" }, { "bu", "ぶ" }, { "be", "べ" }, { "bo", "ぼ" },
+    { "pa", "ぱ" }, { "pi", "ぴ" }, { "pu", "ぷ" }, { "pe", "ぺ" }, { "po", "ぽ" },
+    { "ma", "ま" }, { "mi", "み" }, { "mu", "む" }, { "me", "め" }, { "mo", "も" },
+    { "ya", "や" }, { "yu", "ゆ" }, { "yo", "よ" },
+    { "ra", "ら" }, { "ri", "り" }, { "ru", "る" }, { "re", "れ" }, { "ro", "ろ" },
+    { "wa", "わ" }, { "wo", "を" },
+}
+for prefix, map_prefix in pairs(move_prefix) do
+    for _, char_map in ipairs(char_maps) do
+        vim.keymap.set("n", map_prefix .. char_map[1], prefix .. char_map[2], { noremap = true })
+    end
+end
+
 -- クイックフィックス操作
 vim.keymap.set("n", "<leader>cn", "<Cmd>cnext<CR>", { noremap = true, desc = "Go to next ctag" })
 vim.keymap.set("n", "<leader>cp", "<Cmd>cNext<CR>", { noremap = true, desc = "Go to previous ctag" })
