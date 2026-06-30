@@ -84,6 +84,7 @@ fi
 | **deno** | markdownのwebプレビュー(toppair/peek)に必要 |
 | **make + C compiler** | telescope-fzf-native などのビルドに必要 |
 | **Python + pip** | pylsp, black |
+| **imagemagick** | 画像表示 |
 
 ## 言語設定したいときやること
 
