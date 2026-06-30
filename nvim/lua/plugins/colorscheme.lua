@@ -45,4 +45,5 @@ local cs_setups = {
     end,
 }
 
-cs_setups["catppuccin"]()
+cs_setups.catppuccin()
+vim.api.nvim_set_hl(0, "Folded", { bg = "#19345a" })
