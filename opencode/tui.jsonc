@@ -4,5 +4,9 @@
     "keybinds": {
         "leader": "ctrl+x",
         "editor_open": "<leader>e"
+    },
+    "attention": {
+        "enabled": true,
+        "notifications": true
     }
 }
