@@ -42,16 +42,17 @@ local function import_plugins(target, excludes)
     end
 end
 
--- コア設定読み込み
+-- コア設定読み込み(ビルトインの設定)
 import_plugins("core")
 
--- カスタム設定読み込み
+-- カスタム設定読み込み(自作プラグイン的な)
 import_plugins("custom")
 
--- プラグイン設定読み込み
+-- プラグイン設定読み込み(外部プラグインの設定)
+-- import_plugins("plugins", { "translator" })
 import_plugins("plugins")
 
--- 言語設定読み込み
+-- 言語設定読み込み(言語に関する設定)
 import_plugins("lang")
 
 
@@ -64,8 +65,6 @@ import_plugins("lang")
 -- ╰──────────────────────────╯ │
 --  ╰───────────────── rogawa ──╯
 -- 移行してない
--- gitsigns.lua
 -- lazygit.lua
--- lsp-signeture.lua
 
 -- お試しプラグイン
