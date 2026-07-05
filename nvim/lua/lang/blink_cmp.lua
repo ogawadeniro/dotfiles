@@ -35,6 +35,20 @@ local opts = {
                 cmp.show()
             end
         },
+        ["<Tab>"] = {
+            function(cmp)
+                if (cmp.snippet_active()) then
+                    cmp.snippet_forward()
+                end
+            end
+        },
+        ["<S-Tab>"] = {
+            function(cmp)
+                if (cmp.snippet_active()) then
+                    cmp.snippet_backward()
+                end
+            end
+        }
         -- ['<A-Right>'] = { 'snippet_forward', 'fallback' },
         -- ['<A-Left>'] = { 'snippet_backward', 'fallback' },
         -- ["<C-k>"] = { "scroll_documentation_up", "fallback" },
