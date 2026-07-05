@@ -1,3 +1,4 @@
+local autocmd = vim.api.nvim_create_autocmd
 -- insertモード離脱時に自動でIMEオフ
 vim.api.nvim_create_autocmd("InsertLeave", {
     callback = function()
@@ -7,4 +8,11 @@ vim.api.nvim_create_autocmd("InsertLeave", {
         end
     end,
     desc = "insertモード離脱時に自動でIMEオフ(fcitx5依存)"
+})
+
+-- yank時にハイライト
+autocmd("TextYankPost", {
+    callback = function()
+        vim.highlight.on_yank({ higroup = "IncSearch", timeout = 200 })
+    end
 })
