@@ -52,8 +52,3 @@ local cs_setups = {
 
 cs_setups.catppuccin()
 vim.api.nvim_set_hl(0, "Folded", { bg = "#19345a" })
-
-local test = ""
-local unused = function()
-    vim.print("this is unused function")
-end
