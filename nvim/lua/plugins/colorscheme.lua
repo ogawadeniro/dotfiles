@@ -21,6 +21,11 @@ local cs_setups = {
         vim.api.nvim_set_hl(0, "@property", { fg = colors.syntax.property })
         vim.api.nvim_set_hl(0, "@variable.member", { link = "@property" })
         vim.api.nvim_set_hl(0, "@variable.member", { link = "@property" })
+        vim.api.nvim_set_hl(0, "DiagnosticUnnecessary", { -- シンタックスハイライトは残しつつ、未使用感を出していく
+            fg = "none",
+            bg = "#252a25",
+            underline = true,
+        })
     end,
 
     nightfox = function()
@@ -47,3 +52,8 @@ local cs_setups = {
 
 cs_setups.catppuccin()
 vim.api.nvim_set_hl(0, "Folded", { bg = "#19345a" })
+
+local test = ""
+local unused = function()
+    vim.print("this is unused function")
+end
