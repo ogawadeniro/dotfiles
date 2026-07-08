@@ -25,7 +25,7 @@ local opts = {
                     cmp.select_next()
                 end
                 cmp.show()
-            end
+            end,
         },
         ['<C-p>'] = {
             function(cmp)
@@ -33,21 +33,23 @@ local opts = {
                     cmp.select_prev()
                 end
                 cmp.show()
-            end
+            end,
         },
         ["<Tab>"] = {
             function(cmp)
                 if (cmp.snippet_active()) then
                     cmp.snippet_forward()
                 end
-            end
+            end,
+            "fallback"
         },
         ["<S-Tab>"] = {
             function(cmp)
                 if (cmp.snippet_active()) then
                     cmp.snippet_backward()
                 end
-            end
+            end,
+            "fallback"
         }
         -- ['<A-Right>'] = { 'snippet_forward', 'fallback' },
         -- ['<A-Left>'] = { 'snippet_backward', 'fallback' },
