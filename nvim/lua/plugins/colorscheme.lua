@@ -23,7 +23,7 @@ local cs_setups = {
         vim.api.nvim_set_hl(0, "@variable.member", { link = "@property" })
         vim.api.nvim_set_hl(0, "DiagnosticUnnecessary", { -- シンタックスハイライトは残しつつ、未使用感を出していく
             fg = "none",
-            bg = "#252a25",
+            bg = "#454a45",
             underline = true,
         })
     end,
