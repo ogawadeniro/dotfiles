@@ -7,12 +7,6 @@ vim.g.mapleader = " "
 -- ==============================================================================
 -- 便利系
 -- ==============================================================================
--- 全バッファ再読込
-vim.keymap.set("n", "<leader>r", function()
-    vim.cmd("bufdo e!")
-    vim.notify("全バッファを再読込したよ")
-end, { noremap = true, desc = "全バッファ再読込" })
-
 -- ファイル保存
 vim.keymap.set("n", "<C-s>", "<CMD>w<CR>", { noremap = true })
 
@@ -130,6 +124,7 @@ vim.keymap.set("t", "<C-[>", "<C-\\><C-N>", { noremap = true, desc = "ターミ�
 vim.keymap.set("n", "<leader>/", "gcc", { remap = true, desc = "コメントアウト" })
 vim.keymap.set("v", "<leader>/", "gc", { remap = true, desc = "コメントアウト" })
 
+-- ------------------------------------------------------------------------------
 -- 囲む系文字の内側に移動
 -- ------------------------------------------------------------------------------
 local surround_chars = {
@@ -146,6 +141,7 @@ for i = 1, #surround_chars do
     vim.keymap.set({ "i", "c" }, pair, pair .. '<Left>', { noremap = true })
 end
 
+-- ------------------------------------------------------------------------------
 -- 行末文字列挿入・行末文字列削除
 -- ------------------------------------------------------------------------------
 -- ファイルタイプ設定
@@ -224,7 +220,10 @@ vim.keymap.set("n", "<leader>;", "", {
 -- ==============================================================================
 -- 移動系
 -- ==============================================================================
+
+-- ------------------------------------------------------------------------------
 -- かな移動
+-- ------------------------------------------------------------------------------
 local move_prefix = { f = "gf", F = "gF", t = "gt", T = "gT" }
 local char_maps = {
     { ".", "。" }, { ",", "、" },
@@ -250,11 +249,40 @@ for prefix, map_prefix in pairs(move_prefix) do
     end
 end
 
+-- ==============================================================================
 -- クイックフィックス操作
-vim.keymap.set("n", "<leader>cn", "<Cmd>cnext<CR>", { noremap = true, desc = "Go to next ctag" })
-vim.keymap.set("n", "<leader>cp", "<Cmd>cNext<CR>", { noremap = true, desc = "Go to previous ctag" })
-vim.keymap.set("n", "<leader>cf", "<Cmd>cfirst<CR>", { noremap = true, desc = "Go to first ctag" })
-vim.keymap.set("n", "<leader>cl", "<Cmd>clast<CR>", { noremap = true, desc = "Go to last ctag" })
+-- ==============================================================================
+-- qflist移動
+-- qflist移動を循環するようにする関数
+local function cycle_qf(cmd)
+    local ok, err = pcall(vim.cmd, cmd)
+    if not ok and err and string.find(err, "E553") then
+        if cmd == "cnext" then
+            vim.cmd("cfirst")
+            -- vim.notify("初めのクイックフィックスに戻ったよ", vim.log.levels.INFO, { title = "cycle_qf" })
+        elseif cmd == "cprev" then
+            vim.cmd("clast")
+            -- vim.notify("最後のクイックフィックスに戻ったよ", vim.log.levels.INFO, { title = "cycle_qf" })
+        end
+    end
+end
+-- qf移動キーマップ
+vim.keymap.set("n", "<M-j>", function() cycle_qf("cnext") end, { noremap = true, desc = "Go to next ctag" })
+vim.keymap.set("n", "<M-k>", function() cycle_qf("cprev") end, { noremap = true, desc = "Go to previous ctag" })
+vim.keymap.set("n", "<M-h>", "<Cmd>cfirst<CR>", { noremap = true, desc = "Go to first ctag" })
+vim.keymap.set("n", "<M-l>", "<Cmd>clast<CR>", { noremap = true, desc = "Go to last ctag" })
+
+-- コード診断をqflistに追加
+vim.keymap.set("n", "<M-d>", vim.diagnostic.setqflist, { noremap = true, desc = "quick fix diagnostics" })
+
+-- ==============================================================================
+-- バッファ操作
+-- ==============================================================================
+-- 全バッファ再読込
+vim.keymap.set("n", "<leader>r", function()
+    vim.cmd("bufdo e!")
+    vim.notify("全バッファを再読込したよ")
+end, { noremap = true, desc = "全バッファ再読込" })
 
 -- バッファ切り替え
 local switchBuff = function(switching_key)
@@ -319,4 +347,5 @@ vim.keymap.set("n", "<Leader>h", "", {
     desc = "前のバッファへ"
 })
 
+-- バッファ削除
 vim.keymap.set("n", "<Leader>q", "<CMD>bdelete<CR>")
