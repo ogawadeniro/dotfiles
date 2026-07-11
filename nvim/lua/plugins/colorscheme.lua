@@ -20,10 +20,9 @@ local cs_setups = {
         -- vim.api.nvim_set_hl(0, "@variable", { fg = colors.syntax.variable })
         vim.api.nvim_set_hl(0, "@property", { fg = colors.syntax.property })
         vim.api.nvim_set_hl(0, "@variable.member", { link = "@property" })
-        vim.api.nvim_set_hl(0, "@variable.member", { link = "@property" })
         vim.api.nvim_set_hl(0, "DiagnosticUnnecessary", { -- シンタックスハイライトは残しつつ、未使用感を出していく
             fg = "none",
-            bg = "#454a45",
+            bg = "#4a4505",
             underline = true,
         })
     end,
