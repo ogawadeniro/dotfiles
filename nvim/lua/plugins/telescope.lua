@@ -34,6 +34,7 @@ local opts = {
         file_ignore_patterns = {
             "%.git/",
             "%.metadata/",
+            "%node_modules/",
         },
         mappings = {
             i = {
@@ -45,6 +46,7 @@ local opts = {
     pickers = {
         find_files = {
             hidden = true,
+            no_ignore = true,
         },
         live_grep = {
             hidden = true
