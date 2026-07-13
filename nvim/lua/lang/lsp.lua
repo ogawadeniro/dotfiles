@@ -9,7 +9,7 @@ vim.pack.add({
 -- ------------------------------------------------------------------------------
 -- MasonではLSPの自動インストールだけを行うようにする。
 -- lspをMasonでインストールせず、システム側などでインストールする場合は不要。
-require("mason").setup({})
+require("mason").setup({ ui = { border = "rounded" } })
 require("mason-lspconfig").setup({
     --インストールするサーバリスト
     ensure_installed = {
