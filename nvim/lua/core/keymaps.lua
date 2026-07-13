@@ -246,6 +246,7 @@ local char_maps = {
 for prefix, map_prefix in pairs(move_prefix) do
     for _, char_map in ipairs(char_maps) do
         vim.keymap.set("n", map_prefix .. char_map[1], prefix .. char_map[2], { noremap = true })
+        vim.keymap.set("v", map_prefix .. char_map[1], prefix .. char_map[2], { noremap = true })
     end
 end
 
