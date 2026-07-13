@@ -55,4 +55,4 @@ alias grep='rg --color=auto'
 alias diff='diff --color=auto'
 alias df='dif -h'
 alias dot="cd ${HOME}/.dotfiles && nvim"
-alias glog=git log --oneline --all --decorate -15 -p                                                    9:57:10
+alias glog=git log --oneline --all --decorate -15 -p
