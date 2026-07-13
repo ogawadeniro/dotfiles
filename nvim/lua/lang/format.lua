@@ -16,8 +16,10 @@ conform.setup({
         python = { "black" },
         c = { "clang-format" },
         rust = { "rustfmt" },
-        -- bash = { "shfmt" },
-        -- sh = { "shfmt" },
+        bash = { "shfmt" },
+        zsh = { "shfmt" },
+        sh = { "shfmt" },
+        toml = { "taplo" }
     },
 
     -- ------------------------------------------------------------------------------

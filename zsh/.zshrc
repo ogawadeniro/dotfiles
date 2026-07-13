@@ -15,9 +15,9 @@ source "$ZDOTDIR/helpers.zsh"
 # ------------------------------------------------------------------------------
 # OSごとに違うコマンド名設定
 # ------------------------------------------------------------------------------
-if [ -e "/usr/bin/bat" ] ;then
+if [ -e "/usr/bin/bat" ]; then
     CMD_BAT="bat"
-elif [ -e "/usr/bin/batcat" ] ;then
+elif [ -e "/usr/bin/batcat" ]; then
     CMD_BAT="batcat"
 fi
 

@@ -27,6 +27,7 @@ require("mason-lspconfig").setup({
         "lemminx",       -- xml
         "marksman",      -- markdown
         "yamlls",        -- yaml
+        "taplo",         -- toml
         -- tool系
         -- "cmake",         -- cmake
         "dockerls",    -- dockerfile
@@ -121,6 +122,8 @@ local server_opts = {
     marksman = {},
     -- yaml
     yamlls = {},
+    -- toml
+    taplo = {},
     -- ツール系
     -- docker
     dockerls = {},
