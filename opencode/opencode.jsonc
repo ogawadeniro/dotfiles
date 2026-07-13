@@ -9,12 +9,12 @@
             "sudo *": "deny"
         },
         "edit": {
-            "/tmp/*": "allow",
-            "/home/rogawa/work/develop/**": "allow"
+            "/tmp/**": "allow",
+            "~/work/develop/**": "allow"
+        },
+        "read": {
+            "~/.git_commit_template": "allow"
         }
-        // "read": {
-        //     "/home/rogawa/.dotfiles/*": "allow"
-        // }
     },
     "lsp": true
 }
